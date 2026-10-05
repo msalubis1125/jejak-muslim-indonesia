@@ -1,23 +1,40 @@
 <?php
 
 class JamaahModel extends Model {
-    protected $table = 'users';
+    protected $table = 'pendaftaran_kegiatan';
 
     public function getAllByMasjid($masjidId) {
         if ($masjidId) {
-            $stmt = $this->db->prepare("SELECT id, nama, email, no_hp, is_active, created_at FROM {$this->table} WHERE role = 'jamaah' AND masjid_id = :masjid_id ORDER BY nama ASC");
+            $stmt = $this->db->prepare("
+                SELECT pk.nama_peserta as nama, pk.no_hp, k.judul as kegiatan_terakhir, MAX(pk.created_at) as tanggal_terakhir, COUNT(pk.id) as total_partisipasi
+                FROM pendaftaran_kegiatan pk
+                JOIN kegiatan k ON pk.kegiatan_id = k.id
+                WHERE k.masjid_id = :masjid_id
+                GROUP BY pk.nama_peserta, pk.no_hp
+                ORDER BY tanggal_terakhir DESC
+            ");
             $stmt->execute(['masjid_id' => $masjidId]);
         } else {
-            $stmt = $this->db->query("SELECT id, nama, email, no_hp, is_active, created_at FROM {$this->table} WHERE role = 'jamaah' ORDER BY nama ASC");
+            $stmt = $this->db->query("
+                SELECT pk.nama_peserta as nama, pk.no_hp, k.judul as kegiatan_terakhir, MAX(pk.created_at) as tanggal_terakhir, COUNT(pk.id) as total_partisipasi
+                FROM pendaftaran_kegiatan pk
+                JOIN kegiatan k ON pk.kegiatan_id = k.id
+                GROUP BY pk.nama_peserta, pk.no_hp
+                ORDER BY tanggal_terakhir DESC
+            ");
         }
         return $stmt->fetchAll();
     }
 
     public function countByMasjid($masjidId = null) {
-        $sql = "SELECT COUNT(*) as total FROM {$this->table} WHERE role = 'jamaah'";
+        $sql = "
+            SELECT COUNT(DISTINCT pk.no_hp) as total
+            FROM pendaftaran_kegiatan pk
+            JOIN kegiatan k ON pk.kegiatan_id = k.id
+        ";
         $params = [];
         if ($masjidId) {
-            $sql .= " AND masjid_id = :masjid_id";
+            $sql .= " WHERE k.masjid_id = :masjid_id";
             $params['masjid_id'] = $masjidId;
         }
         $stmt = $this->db->prepare($sql);

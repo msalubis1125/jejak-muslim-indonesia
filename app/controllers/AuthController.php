@@ -69,7 +69,7 @@ class AuthController extends Controller {
                 'email' => 'required|email',
                 'password' => 'required|min:6',
                 'no_hp' => 'required',
-                'role' => 'required'
+                'nama_masjid' => 'required'
             ]);
 
             if (!$result['valid']) {
@@ -77,8 +77,6 @@ class AuthController extends Controller {
                 $this->redirect('auth/register');
             }
 
-            $role = $_POST['role'] === 'takmir' ? 'takmir' : 'jamaah';
-            
             $userModel = $this->model('UserModel');
             if ($userModel->findByEmail($_POST['email'])) {
                 Session::flash('error', 'Email sudah terdaftar.');
@@ -86,27 +84,31 @@ class AuthController extends Controller {
             }
 
             try {
-                $userId = $userModel->create([
+                $masjidModel = $this->model('MasjidModel');
+                $namaMasjid = trim($_POST['nama_masjid']);
+                $slug = $masjidModel->generateSlug($namaMasjid);
+
+                $masjidId = $masjidModel->create([
+                    'nama' => $namaMasjid,
+                    'slug' => $slug,
+                    'alamat' => $_POST['alamat'] ?? '',
+                    'kota' => $_POST['kota'] ?? '',
+                    'provinsi' => $_POST['provinsi'] ?? '',
+                    'no_hp_takmir' => $_POST['no_hp'] ?? '',
+                    'status' => 'pending'
+                ]);
+
+                $userModel->create([
                     'nama' => $_POST['nama'],
                     'email' => $_POST['email'],
                     'password_hash' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                     'no_hp' => $_POST['no_hp'] ?? '',
-                    'role' => $role,
+                    'role' => 'takmir',
+                    'masjid_id' => $masjidId,
                     'is_active' => 1
                 ]);
 
-                if ($role === 'takmir') {
-                    $masjidModel = $this->model('MasjidModel');
-                    $masjidModel->create([
-                        'user_id' => $userId,
-                        'nama' => $_POST['nama_masjid'] ?? 'Masjid Baru',
-                        'status' => 'pending'
-                    ]);
-                    Session::flash('success', 'Registrasi berhasil. Menunggu verifikasi admin untuk masjid Anda.');
-                } else {
-                    Session::flash('success', 'Registrasi berhasil. Silakan login.');
-                }
-                
+                Session::flash('success', 'Pendaftaran takmir dan masjid berhasil! Menunggu peninjauan & verifikasi oleh Super Admin.');
                 $this->redirect('auth/login');
             } catch (Exception $e) {
                 Session::flash('error', 'Terjadi kesalahan. Silakan coba lagi.');

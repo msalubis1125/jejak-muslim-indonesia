@@ -1,14 +1,13 @@
 <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div>
         <h2 class="font-['Poppins'] font-bold text-xl text-gray-800">Manajemen Pengguna</h2>
-        <p class="text-sm text-gray-500 mt-1">Kelola hak akses akun Super Admin, Takmir Masjid, dan Jamaah.</p>
+        <p class="text-sm text-gray-500 mt-1">Kelola hak akses akun Super Administrator dan Takmir Masjid.</p>
     </div>
     <!-- Role Filter Tabs -->
     <div class="flex items-center gap-1.5 bg-gray-100 p-1 rounded-xl text-xs font-medium">
         <a href="<?= BASE_URL ?>/admin/superadmin/users" class="px-3 py-1.5 rounded-lg <?= empty($role_filter) ? 'bg-white text-gray-800 shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900' ?>">Semua</a>
         <a href="<?= BASE_URL ?>/admin/superadmin/users?role=super_admin" class="px-3 py-1.5 rounded-lg <?= ($role_filter === 'super_admin') ? 'bg-white text-indigo-700 shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900' ?>">Super Admin</a>
         <a href="<?= BASE_URL ?>/admin/superadmin/users?role=takmir" class="px-3 py-1.5 rounded-lg <?= ($role_filter === 'takmir') ? 'bg-white text-emerald-700 shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900' ?>">Takmir</a>
-        <a href="<?= BASE_URL ?>/admin/superadmin/users?role=jamaah" class="px-3 py-1.5 rounded-lg <?= ($role_filter === 'jamaah') ? 'bg-white text-blue-700 shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900' ?>">Jamaah</a>
     </div>
 </div>
 
@@ -39,10 +38,8 @@
                             <td class="py-4 px-6">
                                 <?php if ($u['role'] === 'super_admin'): ?>
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Super Admin</span>
-                                <?php elseif ($u['role'] === 'takmir'): ?>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Takmir</span>
                                 <?php else: ?>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Jamaah</span>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Takmir</span>
                                 <?php endif; ?>
                             </td>
                             <td class="py-4 px-6">

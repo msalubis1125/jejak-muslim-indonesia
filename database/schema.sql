@@ -33,7 +33,7 @@ CREATE TABLE users (
     nama VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    role ENUM('super_admin','takmir','jamaah') NOT NULL,
+    role ENUM('super_admin','takmir') NOT NULL,
     no_hp VARCHAR(20),
     masjid_id INT NULL,
     foto VARCHAR(255),
