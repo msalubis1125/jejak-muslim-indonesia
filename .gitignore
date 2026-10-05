@@ -1,0 +1,16 @@
+# Environment & System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencies
+/node_modules/
+/vendor/
+
+# Temporary / Scratch / Tunnels
+/scratch/
+*.log
+cloudflared.exe
+
+# Public uploads
+# /public/uploads/*

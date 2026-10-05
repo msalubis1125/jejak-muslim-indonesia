@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+    <rect width="400" height="300" fill="#E2E8F0"/>
+    <path d="M165 130V120H185V110H215V120H235V130H245V190H155V130H165ZM165 140V180H235V140H165Z" fill="#94A3B8"/>
+    <circle cx="200" cy="160" r="15" fill="#94A3B8"/>
+    <text x="200" y="220" font-family="sans-serif" font-size="14" fill="#64748B" text-anchor="middle">Tidak ada foto</text>
+</svg>

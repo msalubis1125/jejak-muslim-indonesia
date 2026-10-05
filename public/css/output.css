@@ -1,0 +1,140 @@
+/* 
+  NOTE: This project uses Tailwind CSS via CDN for development to avoid requiring Node.js.
+  Add this script to your layouts: <script src="https://cdn.tailwindcss.com"></script>
+  
+  This file contains custom CSS overrides and styles that Tailwind CDN doesn't handle natively.
+*/
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Bottom Sheet (Map) */
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.bottom-sheet.active {
+    transform: translateY(0);
+}
+
+.bottom-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.bottom-sheet-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Map Filter Bar */
+.map-filter-bar {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 500;
+    pointer-events: none;
+}
+.map-filter-bar > * {
+    pointer-events: auto;
+}
+.filter-chip {
+    transition: all 0.2s ease;
+}
+.filter-chip.active {
+    background-color: #059669;
+    color: white;
+    border-color: #059669;
+}
+
+/* Leaflet Overrides */
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
+}
+.custom-div-icon {
+    background: transparent;
+    border: none;
+}
+.leaflet-popup-content-wrapper {
+    border-radius: 1rem;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Toast Animation */
+@keyframes slideUpFade {
+    0% { transform: translateY(100%); opacity: 0; }
+    10% { transform: translateY(0); opacity: 1; }
+    90% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100%); opacity: 0; }
+}
+
+.toast {
+    animation: slideUpFade 5s forwards;
+}
+
+/* Print Styles */
+@media print {
+    body { background: white; }
+    .no-print { display: none !important; }
+    .print-only { display: block !important; }
+    .page-break { page-break-before: always; }
+}
+
+/* Safe area padding for mobile notches */
+.safe-padding-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+
+/* Mobile Layout Guards */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* No Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.no-scrollbar,
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
