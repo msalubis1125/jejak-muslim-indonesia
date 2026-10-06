@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($title) ? $title . ' - ' : '' ?>Jejak Muslim Indonesia</title>
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/img/favicon.png">
+    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/public/img/favicon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,11 +49,11 @@
     <div class="w-full max-w-md">
         <!-- Logo & Header -->
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl shadow-lg shadow-primary-200 mb-4">
-                <img src="<?= BASE_URL ?>/public/img/logo.svg" alt="Logo" class="w-10 h-10 brightness-0 invert">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-white border border-gray-100 rounded-3xl shadow-md p-3 mb-4">
+                <img src="<?= BASE_URL ?>/public/img/logo-transparent.png" alt="Logo" class="w-full h-full object-contain">
             </div>
-            <h1 class="font-heading font-bold text-2xl text-gray-800">Jejak Muslim Indonesia</h1>
-            <p class="text-gray-500 text-sm mt-1">Portal Masjid, Informasi & Pemetaan</p>
+            <h1 class="font-heading font-bold text-2xl text-gray-900">Jejak Muslim <span class="text-red-600">Indonesia</span></h1>
+            <p class="text-gray-500 text-sm mt-1">Sistem Tata Kelola & Portofolio Masjid</p>
         </div>
 
         <!-- Flash Messages -->

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($title) ? $title . ' - ' : '' ?>Dashboard | Jejak Muslim Indonesia</title>
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/img/favicon.png">
+    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/public/img/favicon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,8 +58,13 @@
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-primary-800 text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shrink-0">
             <!-- Logo -->
             <div class="h-16 flex items-center gap-3 px-5 border-b border-primary-700/50">
-                <img src="<?= BASE_URL ?>/public/img/logo.svg" alt="Logo" class="w-8 h-8 brightness-0 invert">
-                <span class="font-heading font-bold text-lg">Jejak Muslim</span>
+                <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
+                    <img src="<?= BASE_URL ?>/public/img/logo-transparent.png" alt="Logo" class="w-full h-full object-contain">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-bold text-base leading-tight">Jejak Muslim</span>
+                    <span class="text-[10px] text-emerald-300 font-semibold tracking-wider uppercase leading-tight">Indonesia</span>
+                </div>
             </div>
 
             <!-- Navigation -->

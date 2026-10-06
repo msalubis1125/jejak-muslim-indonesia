@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jejak Muslim Indonesia - Portal Masjid, Informasi & Pemetaan">
     <meta name="theme-color" content="#059669">
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/img/favicon.png">
+    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/public/img/favicon.png">
     <title><?= isset($title) ? $title . ' - ' : '' ?>Jejak Muslim Indonesia</title>
 
     <!-- Google Fonts -->
@@ -54,11 +56,11 @@
     <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <!-- Brand Logo -->
-            <a href="<?= BASE_URL ?>/" class="flex items-center gap-3">
-                <img src="<?= BASE_URL ?>/public/img/logo.svg" alt="Logo" class="w-9 h-9">
-                <div>
-                    <span class="font-heading font-bold text-emerald-700 text-lg tracking-tight block leading-tight">Jejak Muslim</span>
-                    <span class="text-[10px] text-gray-500 font-medium tracking-wider uppercase block">Portal Masjid Indonesia</span>
+            <a href="<?= BASE_URL ?>/" class="flex items-center gap-2.5 group">
+                <img src="<?= BASE_URL ?>/public/img/logo-transparent.png" alt="Logo Jejak Muslim Indonesia" class="h-10 w-auto object-contain transition-transform group-hover:scale-105">
+                <div class="flex flex-col">
+                    <span class="font-heading font-extrabold text-gray-900 text-base tracking-tight leading-none group-hover:text-emerald-700 transition">Jejak Muslim</span>
+                    <span class="text-[10px] text-red-600 font-bold tracking-wider uppercase leading-tight mt-0.5">Indonesia</span>
                 </div>
             </a>
 
@@ -130,9 +132,9 @@
     <!-- Footer for Desktop/Tablet -->
     <footer class="hidden md:block bg-white border-t border-gray-100 py-8 text-center text-sm text-gray-500">
         <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-2">
-                <img src="<?= BASE_URL ?>/public/img/logo.svg" alt="Logo" class="w-6 h-6">
-                <span class="font-heading font-bold text-emerald-700">Jejak Muslim Indonesia</span>
+            <div class="flex items-center gap-2.5">
+                <img src="<?= BASE_URL ?>/public/img/logo-transparent.png" alt="Logo" class="h-7 w-auto object-contain">
+                <span class="font-heading font-bold text-gray-800">Jejak Muslim <span class="text-red-600">Indonesia</span></span>
             </div>
             <p class="text-xs text-gray-400">&copy; <?= date('Y') ?> Jejak Muslim Indonesia. Pusat Ekosistem Digital Masjid & Jamaah.</p>
             <div class="flex gap-4 text-xs">
