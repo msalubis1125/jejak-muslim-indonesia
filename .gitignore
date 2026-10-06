@@ -1,4 +1,6 @@
 # Environment & System
+.env
+.env.local
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -12,5 +14,8 @@ desktop.ini
 *.log
 cloudflared.exe
 
-# Public uploads
-# /public/uploads/*
+# Public uploads (ignore user uploaded files, keep folder structure via .gitignore/.gitkeep)
+/public/uploads/*
+!/public/uploads/.htaccess
+!/public/uploads/.gitkeep
+/uploads/

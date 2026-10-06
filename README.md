@@ -18,15 +18,15 @@ Jejak Muslim Indonesia adalah platform portal masjid, sistem informasi keuangan,
 
 ## 📦 Instalasi
 1. Clone atau copy folder project ke dalam direktori server lokal Anda (misal: `xampp/htdocs/`).
-2. Buat database baru di MySQL/phpMyAdmin (contoh: `jejak_muslim`).
-3. Import file database schema yang ada di `database/schema.sql` (jika ada).
-4. Sesuaikan konfigurasi database di `app/config/database.php`.
-5. Buka terminal di folder project dan jalankan `npm install` (opsional jika ingin build CSS).
-6. Akses aplikasi melalui browser di `http://localhost/jejak-muslim-indonesia`.
+2. Buat database baru di MySQL/phpMyAdmin (contoh: `jmi_db`).
+3. Import file skema database dari `database/schema.sql` dan data awal `database/seed_sample_data.sql`.
+4. Salin file `.env.example` menjadi `.env` lalu sesuaikan konfigurasi database dan `APP_ENV`.
+5. Akses aplikasi melalui browser di `http://localhost/jejak-muslim-indonesia` atau domain root hosting.
 
-### Akun Default Admin
-- **Email**: admin@jmi.id
-- **Password**: admin123
+### ⚠️ Akun Awal & Keamanan
+- **Email Default**: `admin@jmi.id`
+- **Password Default**: `admin123`
+> **PENTING**: Segera ubah password akun Super Administrator setelah instalasi awal pertama kali demi keamanan sistem. Pastikan file `.env` tidak pernah dipublikasikan ke publik.
 
 ## 📁 Struktur Direktori
 - `app/` - Core PHP MVC (Controllers, Models, Views, Config)

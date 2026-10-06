@@ -12,12 +12,20 @@ if (str_starts_with($waPhone, '0')) {
     $waPhone = '62' . substr($waPhone, 1);
 }
 $waUrl = !empty($masjid['wa_link']) ? $masjid['wa_link'] : "https://wa.me/{$waPhone}?text=" . urlencode("Assalamu'alaikum Pengurus " . ($masjid['nama'] ?? ''));
+$fotoUtamaSrc = !empty($masjid['foto_utama']) 
+    ? ((strpos($masjid['foto_utama'], 'http') === 0) ? $masjid['foto_utama'] : BASE_URL . '/public/uploads/masjid/' . $masjid['foto_utama'])
+    : BASE_URL . '/public/img/placeholder.svg';
+
+$qrisSrc = null;
+if (!empty($qris)) {
+    $qrisSrc = (strpos($qris, 'http') === 0) ? $qris : BASE_URL . '/public/uploads/qris/' . $qris;
+}
 ?>
 
 <div class="max-w-4xl mx-auto py-1 sm:py-2 w-full min-w-0 overflow-hidden">
     <!-- Hero Cover & Header -->
     <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-md h-52 sm:h-80 md:h-96 bg-gray-900 w-full">
-        <img src="<?= htmlspecialchars($masjid['foto_utama'] ?? BASE_URL.'/public/img/placeholder.svg') ?>" alt="<?= htmlspecialchars($masjid['nama'] ?? 'Masjid') ?>" class="w-full h-full object-cover opacity-90">
+        <img src="<?= htmlspecialchars($fotoUtamaSrc) ?>" alt="<?= htmlspecialchars($masjid['nama'] ?? 'Masjid') ?>" class="w-full h-full object-cover opacity-90">
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
 
         <!-- Top Controls -->
@@ -147,7 +155,12 @@ $waUrl = !empty($masjid['wa_link']) ? $masjid['wa_link'] : "https://wa.me/{$waPh
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <?php foreach ($events as $keg): ?>
                         <div class="p-3.5 sm:p-4 bg-gray-50 rounded-2xl border border-gray-100 flex gap-3 sm:gap-4 items-start">
-                            <img src="<?= htmlspecialchars($keg['poster'] ?? BASE_URL.'/public/img/placeholder.svg') ?>" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover shrink-0">
+                            <?php 
+                                $kegPoster = !empty($keg['poster']) 
+                                    ? ((strpos($keg['poster'], 'http') === 0) ? $keg['poster'] : BASE_URL . '/public/uploads/kegiatan/' . $keg['poster']) 
+                                    : BASE_URL . '/public/img/placeholder.svg';
+                            ?>
+                            <img src="<?= htmlspecialchars($kegPoster) ?>" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover shrink-0">
                             <div class="flex-1 min-w-0">
                                 <h4 class="font-heading font-bold text-xs sm:text-sm text-gray-900 line-clamp-1"><?= htmlspecialchars($keg['judul']) ?></h4>
                                 <p class="text-[11px] sm:text-xs text-gray-500 mt-1"><?= date('d M Y', strtotime($keg['tanggal_mulai'])) ?> • <?= substr($keg['jam_mulai'], 0, 5) ?> WIB</p>
@@ -221,11 +234,11 @@ $waUrl = !empty($masjid['wa_link']) ? $masjid['wa_link'] : "https://wa.me/{$waPh
             </div>
 
             <!-- QRIS -->
-            <?php if (!empty($qris)): ?>
+            <?php if (!empty($qrisSrc)): ?>
                 <div class="pt-5 border-t border-gray-100 text-center">
                     <h4 class="font-heading font-bold text-gray-900 text-xs sm:text-sm mb-2">Pembayaran Melalui QRIS</h4>
                     <div class="inline-block p-3 sm:p-4 bg-white border border-gray-200 rounded-2xl shadow-sm max-w-[220px]">
-                        <img src="<?= htmlspecialchars($qris) ?>" alt="QRIS" class="w-40 h-40 sm:w-48 sm:h-48 object-contain mx-auto">
+                        <img src="<?= htmlspecialchars($qrisSrc) ?>" alt="QRIS" class="w-40 h-40 sm:w-48 sm:h-48 object-contain mx-auto">
                     </div>
                     <p class="text-[11px] text-gray-400 mt-2">Dapat dipindai melalui BCA, Mandiri, BSI, GoPay, OVO, ShopeePay, dll.</p>
                 </div>

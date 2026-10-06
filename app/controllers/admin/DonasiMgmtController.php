@@ -75,16 +75,13 @@ class DonasiMgmtController extends Controller {
         }
 
         if (isset($_FILES['qris_image']) && $_FILES['qris_image']['error'] == 0) {
-            $ext = strtolower(pathinfo($_FILES['qris_image']['name'], PATHINFO_EXTENSION));
-            if (in_array($ext, ['jpg', 'jpeg', 'png']) && $_FILES['qris_image']['size'] <= 2000000) {
-                $newName = uniqid('qris_') . '.' . $ext;
-                if (move_uploaded_file($_FILES['qris_image']['tmp_name'], 'uploads/qris/' . $newName)) {
-                    $donasiModel = $this->model('DonasiModel');
-                    $donasiModel->updateQris($this->masjidId, $newName);
-                    Session::flash('success', 'QRIS berhasil diperbarui.');
-                }
+            $upload = FileUploader::uploadImage($_FILES['qris_image'], 'qris', 'qris_');
+            if ($upload['success']) {
+                $donasiModel = $this->model('DonasiModel');
+                $donasiModel->updateQris($this->masjidId, $upload['fileName']);
+                Session::flash('success', 'QRIS berhasil diperbarui.');
             } else {
-                Session::flash('error', 'File tidak valid atau terlalu besar.');
+                Session::flash('error', $upload['error'] ?? 'Gagal mengunggah QRIS.');
             }
         }
         $this->redirect('admin/donasimgmt');

@@ -23,7 +23,12 @@
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between">
                     <div>
                         <div class="relative h-48 bg-gray-100 overflow-hidden">
-                            <img src="<?= htmlspecialchars($keg['poster'] ?? BASE_URL.'/public/img/placeholder.svg') ?>" alt="<?= htmlspecialchars($keg['judul']) ?>" class="w-full h-full object-cover">
+                            <?php 
+                                $kegPoster = !empty($keg['poster']) 
+                                    ? ((strpos($keg['poster'], 'http') === 0) ? $keg['poster'] : BASE_URL . '/public/uploads/kegiatan/' . $keg['poster']) 
+                                    : BASE_URL . '/public/img/placeholder.svg';
+                            ?>
+                            <img src="<?= htmlspecialchars($kegPoster) ?>" alt="<?= htmlspecialchars($keg['judul']) ?>" class="w-full h-full object-cover">
                             <div class="absolute top-3 left-3">
                                 <span class="text-xs font-semibold bg-white/95 backdrop-blur-md text-emerald-800 px-2.5 py-1 rounded-lg shadow-sm">
                                     <?= htmlspecialchars($keg['masjid_nama'] ?? 'Masjid') ?>

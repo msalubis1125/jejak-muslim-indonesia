@@ -14,7 +14,12 @@ $sisaKuota = $kuota > 0 ? max(0, $kuota - $pendaftarCount) : null;
 
     <!-- Poster Header -->
     <div class="relative w-full h-64 sm:h-80 md:h-96 rounded-3xl overflow-hidden shadow-md bg-gray-900 mb-6">
-        <img src="<?= htmlspecialchars($kegiatan['poster'] ?? BASE_URL.'/public/img/placeholder.svg') ?>" class="w-full h-full object-cover opacity-90">
+        <?php 
+            $kegPoster = !empty($kegiatan['poster']) 
+                ? ((strpos($kegiatan['poster'], 'http') === 0) ? $kegiatan['poster'] : BASE_URL . '/public/uploads/kegiatan/' . $kegiatan['poster']) 
+                : BASE_URL . '/public/img/placeholder.svg';
+        ?>
+        <img src="<?= htmlspecialchars($kegPoster) ?>" class="w-full h-full object-cover opacity-90">
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
         <div class="absolute top-4 left-4 right-4 flex items-center justify-between">

@@ -149,7 +149,12 @@
             <?php foreach (array_slice($kegiatans, 0, 4) as $keg): ?>
                 <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row gap-5">
                     <div class="w-full sm:w-36 h-32 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
-                        <img src="<?= htmlspecialchars($keg['poster'] ?? BASE_URL.'/public/img/placeholder.svg') ?>" alt="Poster" class="w-full h-full object-cover">
+                        <?php 
+                            $kegPoster = !empty($keg['poster']) 
+                                ? ((strpos($keg['poster'], 'http') === 0) ? $keg['poster'] : BASE_URL . '/public/uploads/kegiatan/' . $keg['poster']) 
+                                : BASE_URL . '/public/img/placeholder.svg';
+                        ?>
+                        <img src="<?= htmlspecialchars($kegPoster) ?>" alt="Poster" class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1 flex flex-col justify-between">
                         <div>

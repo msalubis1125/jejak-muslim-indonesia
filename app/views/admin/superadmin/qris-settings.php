@@ -64,9 +64,9 @@
             <!-- Upload File QRIS -->
             <div class="pt-3 border-t border-gray-100">
                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
-                    Unggah Gambar Kode QRIS (JPG, PNG, WEBP, SVG)
+                    Unggah Gambar Kode QRIS (JPG, PNG, WEBP)
                 </label>
-                <input type="file" name="qris_file" accept=".jpg,.jpeg,.png,.webp,.svg" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer bg-gray-50 border border-gray-200 rounded-xl p-1.5">
+                <input type="file" name="qris_file" accept=".jpg,.jpeg,.png,.webp" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer bg-gray-50 border border-gray-200 rounded-xl p-1.5">
                 <p class="text-xs text-gray-400 mt-1">Ukuran maksimal file: 3 MB. Disarankan rasio kotak (1:1) dengan resolusi tinggi.</p>
             </div>
 

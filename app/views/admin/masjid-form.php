@@ -177,7 +177,7 @@ $m = $masjid ?? [];
                     <label class="block text-sm font-medium text-gray-700 mb-2">Foto Utama Masjid</label>
                     <?php if (!empty($m['foto_utama'])): ?>
                         <div class="mb-3">
-                            <img src="<?= (strpos($m['foto_utama'], 'http') === 0) ? $m['foto_utama'] : BASE_URL . '/uploads/masjid/' . $m['foto_utama'] ?>" alt="Foto Masjid" class="w-48 h-32 object-cover rounded-xl border border-gray-200 shadow-sm">
+                            <img src="<?= (strpos($m['foto_utama'], 'http') === 0) ? $m['foto_utama'] : BASE_URL . '/public/uploads/masjid/' . $m['foto_utama'] ?>" alt="Foto Masjid" class="w-48 h-32 object-cover rounded-xl border border-gray-200 shadow-sm">
                         </div>
                     <?php endif; ?>
                     <input type="file" name="foto_utama" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">

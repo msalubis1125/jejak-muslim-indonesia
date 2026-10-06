@@ -14,7 +14,15 @@ class Database {
         try {
             $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            die('Database Connection Error: ' . $e->getMessage());
+            error_log('Database Connection Error: ' . $e->getMessage());
+
+            if (defined('APP_ENV') && APP_ENV === 'development') {
+                die('Database Connection Error: ' . htmlspecialchars($e->getMessage()));
+            } else {
+                http_response_code(500);
+                echo '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>500 - Kesalahan Layanan</title><style>body{font-family:sans-serif;text-align:center;padding:50px;color:#333}h1{color:#e11d48}</style></head><body><h1>500 - Terjadi Kesalahan Layanan</h1><p>Sistem sedang mengalami kendala koneksi data. Silakan coba beberapa saat lagi.</p></body></html>';
+                exit;
+            }
         }
     }
 

@@ -2,7 +2,9 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /jejak-muslim-indonesia/
+
+    # Prevent direct access to sensitive files
+    RewriteRule ^(\.env|\.git|\.gitignore|composer\.(json|lock)|package(-lock)?\.json|tailwind\.config\.js) - [F,L,NC]
 
     # Allow access to existing files and directories
     RewriteCond %{REQUEST_FILENAME} !-f

@@ -7,7 +7,7 @@ $imgClass = $isList ? 'w-28 sm:w-36 h-36 object-cover rounded-l-2xl' : 'w-full h
 $slugOrId = !empty($masjid['slug']) ? $masjid['slug'] : ($masjid['id'] ?? '');
 
 $fotoUtama = !empty($masjid['foto_utama']) 
-    ? ((strpos($masjid['foto_utama'], 'http') === 0) ? $masjid['foto_utama'] : BASE_URL . '/uploads/masjid/' . $masjid['foto_utama'])
+    ? ((strpos($masjid['foto_utama'], 'http') === 0) ? $masjid['foto_utama'] : BASE_URL . '/public/uploads/masjid/' . $masjid['foto_utama'])
     : 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80';
 ?>
 

@@ -43,28 +43,11 @@ class QrisSettingsController extends Controller {
 
         // Handle File Upload
         if (isset($_FILES['qris_file']) && $_FILES['qris_file']['error'] === UPLOAD_ERR_OK) {
-            $file = $_FILES['qris_file'];
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'svg', 'webp'];
-            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-            if (in_array($ext, $allowedExtensions)) {
-                $targetDir = ROOT_PATH . '/uploads/qris/';
-                if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0777, true);
-                }
-
-                $fileName = 'qris_website_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-                $targetPath = $targetDir . $fileName;
-
-                if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-                    $data['image'] = 'uploads/qris/' . $fileName;
-                } else {
-                    Session::flash('error', 'Gagal mengunggah file gambar QRIS.');
-                    $this->redirect('admin/superadmin/qris');
-                    return;
-                }
+            $upload = FileUploader::uploadImage($_FILES['qris_file'], 'qris', 'qris_website_');
+            if ($upload['success']) {
+                $data['image'] = 'public/uploads/qris/' . $upload['fileName'];
             } else {
-                Session::flash('error', 'Format gambar tidak didukung. Harap gunakan JPG, PNG, WEBP, atau SVG.');
+                Session::flash('error', $upload['error'] ?? 'Gagal mengunggah file gambar QRIS.');
                 $this->redirect('admin/superadmin/qris');
                 return;
             }

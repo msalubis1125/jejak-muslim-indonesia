@@ -10,7 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Production Compiled CSS -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/output.css">
+
+    <!-- Tailwind CSS CDN (Development Only) -->
+    <?php if (defined('APP_ENV') && APP_ENV === 'development'): ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -31,8 +35,7 @@
             }
         }
     </script>
-
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/output.css">
+    <?php endif; ?>
 
     <style>
         body { font-family: 'Inter', sans-serif; }

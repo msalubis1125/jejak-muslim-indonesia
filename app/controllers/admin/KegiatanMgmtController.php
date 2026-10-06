@@ -43,12 +43,13 @@ class KegiatanMgmtController extends Controller {
 
         // Handle poster upload
         if (isset($_FILES['poster']) && $_FILES['poster']['error'] == 0) {
-            $ext = strtolower(pathinfo($_FILES['poster']['name'], PATHINFO_EXTENSION));
-            if (in_array($ext, ['jpg', 'jpeg', 'png']) && $_FILES['poster']['size'] <= 2000000) {
-                $newName = uniqid('poster_') . '.' . $ext;
-                if (move_uploaded_file($_FILES['poster']['tmp_name'], 'uploads/kegiatan/' . $newName)) {
-                    $data['poster'] = $newName;
-                }
+            $upload = FileUploader::uploadImage($_FILES['poster'], 'kegiatan', 'poster_');
+            if ($upload['success']) {
+                $data['poster'] = $upload['fileName'];
+            } else {
+                Session::flash('error', $upload['error'] ?? 'Gagal mengunggah poster kegiatan.');
+                $this->redirect('admin/kegiatanmgmt');
+                return;
             }
         }
 
@@ -95,12 +96,13 @@ class KegiatanMgmtController extends Controller {
         ];
 
         if (isset($_FILES['poster']) && $_FILES['poster']['error'] == 0) {
-            $ext = strtolower(pathinfo($_FILES['poster']['name'], PATHINFO_EXTENSION));
-            if (in_array($ext, ['jpg', 'jpeg', 'png'])) {
-                $newName = uniqid('poster_') . '.' . $ext;
-                if (move_uploaded_file($_FILES['poster']['tmp_name'], 'uploads/kegiatan/' . $newName)) {
-                    $data['poster'] = $newName;
-                }
+            $upload = FileUploader::uploadImage($_FILES['poster'], 'kegiatan', 'poster_');
+            if ($upload['success']) {
+                $data['poster'] = $upload['fileName'];
+            } else {
+                Session::flash('error', $upload['error'] ?? 'Gagal memperbarui poster kegiatan.');
+                $this->redirect('admin/kegiatanmgmt');
+                return;
             }
         }
 

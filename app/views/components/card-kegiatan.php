@@ -1,9 +1,12 @@
 <?php
 $kegiatan = $kegiatan ?? [];
+$posterSrc = !empty($kegiatan['poster'])
+    ? ((strpos($kegiatan['poster'], 'http') === 0) ? $kegiatan['poster'] : BASE_URL . '/public/uploads/kegiatan/' . $kegiatan['poster'])
+    : BASE_URL . '/public/img/placeholder.svg';
 ?>
 <a href="<?= BASE_URL ?>/kegiatan/<?= $kegiatan['id'] ?? '' ?>" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition">
     <div class="relative w-full h-32 bg-gray-200">
-        <img src="<?= htmlspecialchars($kegiatan['poster'] ?? BASE_URL.'/public/img/kegiatan-placeholder.jpg') ?>" alt="Poster" class="w-full h-full object-cover">
+        <img src="<?= htmlspecialchars($posterSrc) ?>" alt="Poster" class="w-full h-full object-cover">
         <div class="absolute top-2 right-2 bg-white/90 backdrop-blur text-xs font-semibold px-2 py-1 rounded-lg text-emerald-700 shadow-sm">
             <?= htmlspecialchars($kegiatan['kategori'] ?? 'Kajian') ?>
         </div>

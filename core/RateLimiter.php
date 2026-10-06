@@ -7,7 +7,7 @@ class RateLimiter {
         $stmt->execute([':email' => $email]);
         $user = $stmt->fetch();
         
-        if ($user && $user->locked_until && strtotime($user->locked_until) > time()) {
+        if ($user && !empty($user['locked_until']) && strtotime($user['locked_until']) > time()) {
             return false;
         }
 
@@ -16,7 +16,7 @@ class RateLimiter {
         $stmt->execute([':email' => $email, ':ip' => $ip, ':timeLimit' => $timeLimit]);
         
         $result = $stmt->fetch();
-        return $result->attempts < MAX_LOGIN_ATTEMPTS;
+        return ($result['attempts'] ?? 0) < MAX_LOGIN_ATTEMPTS;
     }
 
     public static function record($email, $ip, $success) {
@@ -28,7 +28,8 @@ class RateLimiter {
             $timeLimit = date('Y-m-d H:i:s', time() - LOCKOUT_DURATION);
             $stmt = $db->prepare("SELECT COUNT(*) as attempts FROM login_attempts WHERE email = :email AND success = 0 AND attempted_at > :timeLimit");
             $stmt->execute([':email' => $email, ':timeLimit' => $timeLimit]);
-            $attempts = $stmt->fetch()->attempts;
+            $row = $stmt->fetch();
+            $attempts = (int)($row['attempts'] ?? 0);
             
             if ($attempts >= MAX_LOGIN_ATTEMPTS) {
                 $lockUntil = date('Y-m-d H:i:s', time() + LOCKOUT_DURATION);
@@ -44,8 +45,8 @@ class RateLimiter {
         $stmt->execute([':email' => $email]);
         $user = $stmt->fetch();
         
-        if ($user && $user->locked_until) {
-            $diff = strtotime($user->locked_until) - time();
+        if ($user && !empty($user['locked_until'])) {
+            $diff = strtotime($user['locked_until']) - time();
             return $diff > 0 ? $diff : 0;
         }
         return 0;

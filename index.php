@@ -2,6 +2,10 @@
 // Define base path
 define('ROOT_PATH', __DIR__);
 
+// Load Environment Loader first
+require_once ROOT_PATH . '/core/Env.php';
+Env::load(ROOT_PATH . '/.env');
+
 // Load configurations
 require_once ROOT_PATH . '/config/app.php';
 require_once ROOT_PATH . '/config/database.php';
@@ -17,6 +21,7 @@ require_once ROOT_PATH . '/core/CSRF.php';
 require_once ROOT_PATH . '/core/Auth.php';
 require_once ROOT_PATH . '/core/Validator.php';
 require_once ROOT_PATH . '/core/RateLimiter.php';
+require_once ROOT_PATH . '/core/FileUploader.php';
 
 // Start Session
 Session::start();
@@ -28,6 +33,7 @@ if (defined('APP_ENV') && APP_ENV === 'development') {
 } else {
     error_reporting(0);
     ini_set('display_errors', '0');
+    ini_set('log_errors', '1');
 }
 
 // Initialize application

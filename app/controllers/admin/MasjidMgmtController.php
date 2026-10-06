@@ -69,21 +69,13 @@ class MasjidMgmtController extends Controller {
 
         // Handle File Upload for foto_utama
         if (isset($_FILES['foto_utama']) && $_FILES['foto_utama']['error'] == 0) {
-            $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-            $filename = $_FILES['foto_utama']['name'];
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            
-            if (in_array($ext, $allowed) && $_FILES['foto_utama']['size'] <= 3000000) {
-                $newName = uniqid('masjid_') . '.' . $ext;
-                $destDir = ROOT_PATH . '/uploads/masjid/';
-                if (!is_dir($destDir)) {
-                    mkdir($destDir, 0777, true);
-                }
-                $dest = $destDir . $newName;
-                
-                if (move_uploaded_file($_FILES['foto_utama']['tmp_name'], $dest)) {
-                    $dataUpdate['foto_utama'] = $newName;
-                }
+            $upload = FileUploader::uploadImage($_FILES['foto_utama'], 'masjid', 'masjid_');
+            if ($upload['success']) {
+                $dataUpdate['foto_utama'] = $upload['fileName'];
+            } else {
+                Session::flash('error', $upload['error'] ?? 'Gagal mengunggah foto masjid.');
+                $this->redirect('admin/masjid');
+                return;
             }
         }
 
@@ -119,14 +111,13 @@ class MasjidMgmtController extends Controller {
         $id = Auth::isSuperAdmin() ? $_POST['masjid_id'] : $this->masjidId;
         
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-            $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
-            if (in_array($ext, ['jpg', 'jpeg', 'png'])) {
-                $newName = uniqid('galeri_') . '.' . $ext;
-                if (move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/masjid/' . $newName)) {
-                    $masjidModel = $this->model('MasjidModel');
-                    $masjidModel->addGaleri($id, $newName, $_POST['keterangan'] ?? '');
-                    Session::flash('success', 'Foto berhasil diunggah.');
-                }
+            $upload = FileUploader::uploadImage($_FILES['foto'], 'masjid', 'galeri_');
+            if ($upload['success']) {
+                $masjidModel = $this->model('MasjidModel');
+                $masjidModel->addGaleri($id, $upload['fileName'], $_POST['keterangan'] ?? '');
+                Session::flash('success', 'Foto berhasil diunggah.');
+            } else {
+                Session::flash('error', $upload['error'] ?? 'Gagal mengunggah foto galeri.');
             }
         }
         $this->redirect('admin/masjidmgmt/galeri');

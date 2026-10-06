@@ -59,7 +59,10 @@ $k = $kegiatan ?? [];
             <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">Poster Kegiatan (Opsional)</label>
             <?php if (!empty($k['poster'])): ?>
                 <div class="mb-2 flex items-center gap-3">
-                    <img src="<?= BASE_URL ?>/uploads/kegiatan/<?= htmlspecialchars($k['poster']) ?>" class="w-16 h-16 object-cover rounded-xl border border-gray-200" alt="Poster Saat Ini">
+                    <?php
+                        $posterSrc = (strpos($k['poster'], 'http') === 0) ? $k['poster'] : BASE_URL . '/public/uploads/kegiatan/' . $k['poster'];
+                    ?>
+                    <img src="<?= htmlspecialchars($posterSrc) ?>" class="w-16 h-16 object-cover rounded-xl border border-gray-200" alt="Poster Saat Ini">
                     <span class="text-xs text-gray-500">Poster saat ini terpasang. Unggah baru untuk mengganti.</span>
                 </div>
             <?php endif; ?>
