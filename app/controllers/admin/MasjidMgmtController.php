@@ -104,11 +104,18 @@ class MasjidMgmtController extends Controller {
     }
 
     public function uploadGaleri() {
-        if (!$this->isPost()) {
+        if (!$this->isPost() || !CSRF::verify($_POST['csrf_token'] ?? '')) {
+            Session::flash('error', 'Token keamanan tidak valid.');
             $this->redirect('admin/masjidmgmt/galeri');
+            return;
         }
 
-        $id = Auth::isSuperAdmin() ? $_POST['masjid_id'] : $this->masjidId;
+        $id = Auth::isSuperAdmin() ? (int)($_POST['masjid_id'] ?? 0) : (int)$this->masjidId;
+        if (!$id) {
+            Session::flash('error', 'Masjid tidak valid.');
+            $this->redirect('admin/masjidmgmt/galeri');
+            return;
+        }
         
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
             $upload = FileUploader::uploadImage($_FILES['foto'], 'masjid', 'galeri_');
@@ -124,12 +131,25 @@ class MasjidMgmtController extends Controller {
     }
 
     public function deleteGaleri($fotoId) {
-        if ($this->isPost()) {
-            $masjidModel = $this->model('MasjidModel');
-            $id = Auth::isSuperAdmin() ? $_POST['masjid_id'] : $this->masjidId;
-            $masjidModel->deleteGaleri($id, $fotoId);
-            Session::flash('success', 'Foto berhasil dihapus.');
+        if (!$this->isPost() || !CSRF::verify($_POST['csrf_token'] ?? '')) {
+            Session::flash('error', 'Token keamanan tidak valid.');
+            $this->redirect('admin/masjidmgmt/galeri');
+            return;
         }
+
+        $masjidId = Auth::isSuperAdmin() ? (int)($_POST['masjid_id'] ?? 0) : (int)$this->masjidId;
+        $masjidModel = $this->model('MasjidModel');
+
+        // IDOR Defense: verify existence and ownership before delete
+        $photo = $masjidModel->getGaleriByIdAndMasjid((int)$fotoId, $masjidId);
+        if (!$photo) {
+            Session::flash('error', 'Akses ditolak atau foto tidak ditemukan.');
+            $this->redirect('admin/masjidmgmt/galeri');
+            return;
+        }
+
+        $masjidModel->deleteGaleri($masjidId, (int)$fotoId);
+        Session::flash('success', 'Foto galeri berhasil dihapus.');
         $this->redirect('admin/masjidmgmt/galeri');
     }
 

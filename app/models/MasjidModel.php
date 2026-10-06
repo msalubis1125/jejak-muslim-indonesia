@@ -102,6 +102,40 @@ class MasjidModel extends Model {
         return $stmt->fetchAll();
     }
 
+    public function getGaleriByIdAndMasjid($fotoId, $masjidId) {
+        $stmt = $this->db->prepare("SELECT * FROM galeri_masjid WHERE id = :id AND masjid_id = :masjid_id LIMIT 1");
+        $stmt->execute(['id' => $fotoId, 'masjid_id' => $masjidId]);
+        return $stmt->fetch();
+    }
+
+    public function addGaleri($masjidId, $filePath, $caption = '') {
+        $stmtUrutan = $this->db->prepare("SELECT COALESCE(MAX(urutan), 0) + 1 AS next_urutan FROM galeri_masjid WHERE masjid_id = :masjid_id");
+        $stmtUrutan->execute(['masjid_id' => $masjidId]);
+        $row = $stmtUrutan->fetch();
+        $urutan = $row ? (int)$row['next_urutan'] : 1;
+
+        $stmt = $this->db->prepare("INSERT INTO galeri_masjid (masjid_id, file_path, caption, urutan, created_at) VALUES (:masjid_id, :file_path, :caption, :urutan, NOW())");
+        return $stmt->execute([
+            'masjid_id' => $masjidId,
+            'file_path' => $filePath,
+            'caption'   => $caption,
+            'urutan'    => $urutan
+        ]);
+    }
+
+    public function deleteGaleri($masjidId, $fotoId) {
+        $photo = $this->getGaleriByIdAndMasjid($fotoId, $masjidId);
+        if ($photo) {
+            $filePath = ROOT_PATH . '/public/uploads/masjid/' . $photo['file_path'];
+            if (file_exists($filePath) && is_file($filePath)) {
+                @unlink($filePath);
+            }
+            $stmt = $this->db->prepare("DELETE FROM galeri_masjid WHERE id = :id AND masjid_id = :masjid_id");
+            return $stmt->execute(['id' => $fotoId, 'masjid_id' => $masjidId]);
+        }
+        return false;
+    }
+
     public function getWithFasilitas($id) {
         $masjid = $this->findById($id);
         if ($masjid) {
