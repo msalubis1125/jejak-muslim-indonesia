@@ -142,4 +142,45 @@ class KegiatanMgmtController extends Controller {
 
         $this->view('admin/kegiatan/peserta', $data);
     }
+
+    public function exportCsvPeserta($id) {
+        $kegiatanModel = $this->model('KegiatanModel');
+        $pendaftaranModel = $this->model('PendaftaranModel');
+
+        $kegiatan = $kegiatanModel->findByIdAndMasjid((int)$id, $this->masjidId);
+        if (!$kegiatan) {
+            Session::flash('error', 'Akses ditolak atau kegiatan tidak ditemukan.');
+            $this->redirect('admin/kegiatanmgmt');
+            return;
+        }
+
+        $pesertaList = $pendaftaranModel->getAllByKegiatan((int)$id);
+
+        $filename = 'peserta_' . preg_replace('/[^a-zA-Z0-9_-]/', '_', $kegiatan['judul']) . '_' . date('Ymd_His') . '.csv';
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        // Add UTF-8 BOM for Excel compatibility
+        fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+
+        fputcsv($output, ['No', 'Nama Peserta', 'Nomor WhatsApp', 'Status', 'Waktu Pendaftaran']);
+
+        $no = 1;
+        foreach ($pesertaList as $p) {
+            fputcsv($output, [
+                $no++,
+                $p['nama'] ?? '-',
+                $p['no_hp'] ?? ($p['no_whatsapp'] ?? '-'),
+                $p['status'] ?? 'terdaftar',
+                $p['created_at'] ?? '-'
+            ]);
+        }
+
+        fclose($output);
+        exit;
+    }
 }

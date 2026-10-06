@@ -25,28 +25,34 @@ class MasjidVerifController extends Controller {
     }
 
     public function verify($id) {
-        if ($this->isPost()) {
+        if ($this->isPost() && CSRF::verify($_POST['csrf_token'] ?? '')) {
             $masjidModel = $this->model('MasjidModel');
             $masjidModel->updateStatus($id, 'verified');
             Session::flash('success', 'Masjid berhasil diverifikasi.');
+        } else {
+            Session::flash('error', 'Token keamanan tidak valid.');
         }
         $this->redirect('admin/superadmin/masjidverif');
     }
 
     public function reject($id) {
-        if ($this->isPost()) {
+        if ($this->isPost() && CSRF::verify($_POST['csrf_token'] ?? '')) {
             $masjidModel = $this->model('MasjidModel');
             $masjidModel->updateStatus($id, 'suspended');
             Session::flash('success', 'Pengajuan masjid ditolak (ditangguhkan).');
+        } else {
+            Session::flash('error', 'Token keamanan tidak valid.');
         }
         $this->redirect('admin/superadmin/masjidverif');
     }
 
     public function suspend($id) {
-        if ($this->isPost()) {
+        if ($this->isPost() && CSRF::verify($_POST['csrf_token'] ?? '')) {
             $masjidModel = $this->model('MasjidModel');
             $masjidModel->updateStatus($id, 'suspended');
             Session::flash('success', 'Masjid telah ditangguhkan.');
+        } else {
+            Session::flash('error', 'Token keamanan tidak valid.');
         }
         $this->redirect('admin/superadmin/masjidverif/allMasjid');
     }

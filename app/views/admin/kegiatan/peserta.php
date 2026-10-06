@@ -19,6 +19,14 @@
                     <span class="text-gray-400">/ <?= number_format($kegiatan['kuota']) ?> Kuota</span>
                 <?php endif; ?>
             </div>
+            <?php if (!empty($peserta_list)): ?>
+                <a href="<?= BASE_URL ?>/admin/kegiatanmgmt/exportCsvPeserta/<?= $kegiatan['id'] ?>" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl shadow-sm transition">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.5V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>
+                    Ekspor CSV
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 

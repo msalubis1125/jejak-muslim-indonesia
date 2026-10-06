@@ -80,6 +80,7 @@
                     ['url' => '/admin/aset', 'label' => 'Aset & Inventaris', 'key' => 'aset', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />'],
                     ['url' => '/admin/jamaah', 'label' => 'Direktori Jamaah', 'key' => 'jamaah', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />'],
                     ['url' => '/admin/donasi', 'label' => 'Donasi & Rekening', 'key' => 'donasi', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />'],
+                    ['url' => '/admin/artikelmgmt', 'label' => 'Artikel & Buletin', 'key' => 'artikel', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />'],
                 ];
                 foreach ($menuItems as $item):
                     $isActive = $currentMenu === $item['key'];
@@ -185,6 +186,14 @@
                             <button type="submit" class="text-[11px] sm:text-xs bg-amber-500 hover:bg-amber-600 text-white px-2.5 sm:px-3 py-1 rounded-full font-medium transition shadow-sm">Kembali SuperAdmin</button>
                         </form>
                     <?php endif; ?>
+
+                    <!-- Profile Settings -->
+                    <a href="<?= BASE_URL ?>/profile" class="p-2 rounded-xl hover:bg-gray-100 transition text-gray-600 hover:text-emerald-600 flex items-center gap-1.5 text-xs font-medium" title="Pengaturan Profil & Password">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <span class="hidden md:inline"><?= htmlspecialchars(Auth::user()['nama'] ?? 'Profil') ?></span>
+                    </a>
 
                     <!-- Back to Portal -->
                     <a href="<?= BASE_URL ?>/" class="text-xs sm:text-sm text-gray-500 hover:text-primary-600 transition hidden sm:block">← Portal</a>

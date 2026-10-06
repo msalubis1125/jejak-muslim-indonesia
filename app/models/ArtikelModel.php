@@ -64,6 +64,51 @@ class ArtikelModel extends Model {
         return $stmt->fetchAll();
     }
 
+    public function getAllByMasjid($masjidId = null) {
+        if ($masjidId !== null) {
+            $stmt = $this->db->prepare("SELECT a.*, m.nama AS masjid_nama FROM {$this->table} a LEFT JOIN masjid m ON a.masjid_id = m.id WHERE a.masjid_id = :masjid_id AND a.is_deleted = 0 ORDER BY a.created_at DESC");
+            $stmt->execute(['masjid_id' => $masjidId]);
+            return $stmt->fetchAll();
+        }
+        $stmt = $this->db->query("SELECT a.*, m.nama AS masjid_nama FROM {$this->table} a LEFT JOIN masjid m ON a.masjid_id = m.id WHERE a.is_deleted = 0 ORDER BY a.created_at DESC");
+        return $stmt->fetchAll();
+    }
+
+    public function findByIdAndMasjid($id, $masjidId = null) {
+        $sql = "SELECT a.*, m.nama AS masjid_nama FROM {$this->table} a LEFT JOIN masjid m ON a.masjid_id = m.id WHERE a.id = :id AND a.is_deleted = 0";
+        $params = ['id' => $id];
+        if ($masjidId !== null) {
+            $sql .= " AND a.masjid_id = :masjid_id";
+            $params['masjid_id'] = $masjidId;
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
+
+    public function generateSlug($judul, $id = null) {
+        $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $judul), '-'));
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (true) {
+            $sql = "SELECT id FROM {$this->table} WHERE slug = :slug";
+            $params = ['slug' => $slug];
+            if ($id !== null) {
+                $sql .= " AND id != :id";
+                $params['id'] = $id;
+            }
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            if (!$stmt->fetch()) {
+                break;
+            }
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        return $slug;
+    }
+
     public function publish($id) {
         $stmt = $this->db->prepare("UPDATE {$this->table} SET is_published = 1, published_at = NOW() WHERE id = :id");
         return $stmt->execute(['id' => $id]);
@@ -72,5 +117,16 @@ class ArtikelModel extends Model {
     public function unpublish($id) {
         $stmt = $this->db->prepare("UPDATE {$this->table} SET is_published = 0, published_at = NULL WHERE id = :id");
         return $stmt->execute(['id' => $id]);
+    }
+
+    public function softDelete($id, $masjidId = null) {
+        $sql = "UPDATE {$this->table} SET is_deleted = 1 WHERE id = :id";
+        $params = ['id' => $id];
+        if ($masjidId !== null) {
+            $sql .= " AND masjid_id = :masjid_id";
+            $params['masjid_id'] = $masjidId;
+        }
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
     }
 }
