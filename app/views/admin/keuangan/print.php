@@ -291,6 +291,12 @@
             <h2>LAPORAN PERTANGGUNGJAWABAN KEUANGAN</h2>
             <div class="meta">
                 Periode: <strong><?= htmlspecialchars($periode_label) ?></strong> &bull; Kantong Kas: <strong><?= htmlspecialchars($nama_kas) ?></strong>
+                <?php if (!empty($kategori_id) && !empty($nama_kategori)): ?>
+                    &bull; Pos Kategori: <strong style="color: #059669;"><?= htmlspecialchars($nama_kategori) ?></strong>
+                <?php endif; ?>
+                <?php if (!empty($tipe_filter)): ?>
+                    &bull; Tipe: <strong><?= ($tipe_filter === 'masuk') ? 'Pemasukan (+)' : 'Pengeluaran (-)' ?></strong>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -387,6 +393,69 @@
             </div>
 
         <?php else: ?>
+            <!-- REKAPITULASI POS KATEGORI DALAM BUKU KAS -->
+            <div class="breakdown-grid" style="margin-bottom: 16px;">
+                <!-- Rincian Pemasukan -->
+                <div>
+                    <div class="section-heading">
+                        <span>Penerimaan Menurut Kategori</span>
+                        <span class="mono text-emerald font-bold">Rp <?= number_format($report['total_masuk'], 0, ',', '.') ?></span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kategori Pemasukan</th>
+                                <th class="text-right" style="width: 40%;">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($report['kategori_masuk'])): ?>
+                                <tr>
+                                    <td colspan="2" class="text-center" style="color: #9ca3af; font-style: italic;">Tidak ada pemasukan</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($report['kategori_masuk'] as $kat => $val): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($kat) ?></td>
+                                        <td class="text-right mono font-semibold text-emerald">Rp <?= number_format($val, 0, ',', '.') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Rincian Pengeluaran -->
+                <div>
+                    <div class="section-heading">
+                        <span>Pengeluaran Menurut Kategori</span>
+                        <span class="mono text-rose font-bold">Rp <?= number_format($report['total_keluar'], 0, ',', '.') ?></span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kategori Pengeluaran</th>
+                                <th class="text-right" style="width: 40%;">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($report['kategori_keluar'])): ?>
+                                <tr>
+                                    <td colspan="2" class="text-center" style="color: #9ca3af; font-style: italic;">Tidak ada pengeluaran</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($report['kategori_keluar'] as $kat => $val): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($kat) ?></td>
+                                        <td class="text-right mono font-semibold text-rose">Rp <?= number_format($val, 0, ',', '.') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- FORMAT DETAIL: BUKU KAS LENGKAP -->
             <div class="section-heading">
                 <span>Daftar Transaksi Arus Kas</span>
@@ -397,7 +466,7 @@
                     <tr>
                         <th style="width: 5%;" class="text-center">No</th>
                         <th style="width: 12%;">Tanggal</th>
-                        <th style="width: 16%;">Kategori</th>
+                        <th style="width: 18%;">Kategori & Pos</th>
                         <th>Uraian / Keterangan</th>
                         <th style="width: 16%;" class="text-right">Masuk (Rp)</th>
                         <th style="width: 16%;" class="text-right">Keluar (Rp)</th>
@@ -415,13 +484,13 @@
                                 <td class="mono"><?= date('d/m/Y', strtotime($tx['tanggal'])) ?></td>
                                 <td>
                                     <strong><?= htmlspecialchars($tx['nama_kategori'] ?? 'Lain-lain') ?></strong>
-                                    <div style="font-size: 7.5pt; color: #6b7280;"><?= htmlspecialchars($tx['nama_kas'] ?? 'Kas') ?></div>
+                                    <div style="font-size: 7.5pt; color: #6b7280;"><?= htmlspecialchars($tx['nama_kas'] ?? 'Kas') ?> &bull; <?= ($tx['tipe'] === 'masuk') ? '<span style="color:#059669;">[Pemasukan]</span>' : '<span style="color:#dc2626;">[Pengeluaran]</span>' ?></div>
                                 </td>
                                 <td><?= htmlspecialchars($tx['keterangan'] ?? '-') ?></td>
-                                <td class="text-right mono text-emerald">
+                                <td class="text-right mono text-emerald font-semibold">
                                     <?= ($tx['tipe'] === 'masuk') ? number_format($tx['nominal'], 0, ',', '.') : '-' ?>
                                 </td>
-                                <td class="text-right mono text-rose">
+                                <td class="text-right mono text-rose font-semibold">
                                     <?= ($tx['tipe'] === 'keluar') ? number_format($tx['nominal'], 0, ',', '.') : '-' ?>
                                 </td>
                             </tr>

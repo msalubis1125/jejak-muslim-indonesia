@@ -243,6 +243,8 @@ class KeuanganModel extends Model {
         $startDate = $filters['start_date'] ?? null;
         $endDate = $filters['end_date'] ?? null;
         $kasId = !empty($filters['kas_id']) ? (int)$filters['kas_id'] : null;
+        $kategoriId = !empty($filters['kategori_id']) ? (int)$filters['kategori_id'] : null;
+        $tipe = !empty($filters['tipe']) ? $filters['tipe'] : null;
 
         // 1. Hitung Saldo Awal (sebelum startDate)
         $saldoAwal = 0;
@@ -261,13 +263,21 @@ class KeuanganModel extends Model {
                 $sqlAwal .= " AND kas_id = :kas_id";
                 $paramsAwal['kas_id'] = $kasId;
             }
+            if ($kategoriId) {
+                $sqlAwal .= " AND kategori_id = :kategori_id";
+                $paramsAwal['kategori_id'] = $kategoriId;
+            }
+            if ($tipe) {
+                $sqlAwal .= " AND tipe = :tipe";
+                $paramsAwal['tipe'] = $tipe;
+            }
             $stmtAwal = $this->db->prepare($sqlAwal);
             $stmtAwal->execute($paramsAwal);
             $saldoAwal = (float)$stmtAwal->fetchColumn();
         }
 
         // 2. Transaksi dalam rentang tanggal
-        $sqlTx = "SELECT k.*, kas.nama_kas, kat.nama as nama_kategori 
+        $sqlTx = "SELECT k.*, kas.nama_kas, kat.nama as nama_kategori, kat.tipe as kategori_tipe 
                   FROM {$this->table} k 
                   LEFT JOIN kas ON k.kas_id = kas.id 
                   LEFT JOIN kategori_keuangan kat ON k.kategori_id = kat.id 
@@ -280,6 +290,14 @@ class KeuanganModel extends Model {
         if ($kasId) {
             $sqlTx .= " AND k.kas_id = :kas_id";
             $paramsTx['kas_id'] = $kasId;
+        }
+        if ($kategoriId) {
+            $sqlTx .= " AND k.kategori_id = :kategori_id";
+            $paramsTx['kategori_id'] = $kategoriId;
+        }
+        if ($tipe) {
+            $sqlTx .= " AND k.tipe = :tipe";
+            $paramsTx['tipe'] = $tipe;
         }
         if ($startDate) {
             $sqlTx .= " AND k.tanggal >= :start_date";

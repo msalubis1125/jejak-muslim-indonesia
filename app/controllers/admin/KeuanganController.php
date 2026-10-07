@@ -208,11 +208,16 @@ class KeuanganController extends Controller {
             $periodeLabel = 'Bulan Berjalan (' . date('d M Y', strtotime($startDate)) . ' s/d ' . date('d M Y') . ')';
         }
 
+        $kategoriId = !empty($_GET['kategori_id']) ? (int)$_GET['kategori_id'] : (!empty($_GET['kategori']) ? (int)$_GET['kategori'] : null);
+        $tipe = !empty($_GET['tipe']) ? $_GET['tipe'] : null;
+
         // Ambil Data Laporan Berdasarkan Filter
         $reportData = $keuanganModel->getDetailedReport($this->masjidId, [
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'kas_id' => $kasId
+            'kas_id' => $kasId,
+            'kategori_id' => $kategoriId,
+            'tipe' => $tipe
         ]);
 
         // Informasi Masjid
@@ -227,10 +232,25 @@ class KeuanganController extends Controller {
             }
         }
 
+        // Informasi Kategori Terpilih (jika difilter per kategori)
+        $namaKategori = 'Semua Kategori';
+        if ($kategoriId) {
+            $katList = $keuanganModel->getKategoriList();
+            foreach ($katList as $katItem) {
+                if ($katItem['id'] == $kategoriId) {
+                    $namaKategori = $katItem['nama'];
+                    break;
+                }
+            }
+        }
+
         $data = [
             'title' => 'Cetak Laporan Keuangan - ' . ($masjid['nama'] ?? 'Masjid'),
             'masjid' => $masjid,
             'nama_kas' => $namaKas,
+            'nama_kategori' => $namaKategori,
+            'kategori_id' => $kategoriId,
+            'tipe_filter' => $tipe,
             'periode_label' => $periodeLabel,
             'periode' => $periode,
             'start_date' => $startDate,

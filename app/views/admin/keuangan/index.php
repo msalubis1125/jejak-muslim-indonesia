@@ -434,17 +434,35 @@ foreach ($list as $t) {
                 </div>
             </div>
 
-            <!-- 2. Pilihan Kantong Kas -->
-            <div>
-                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">2. Pilih Pos / Kantong Kas</label>
-                <select name="kas_id" class="w-full text-xs sm:text-sm border border-gray-200 rounded-xl p-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
-                    <option value="">Semua Kantong Kas (Kas Operasional, Yatim, Pembangunan, dll)</option>
-                    <?php if (!empty($kas_list)): ?>
-                        <?php foreach ($kas_list as $k): ?>
-                            <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nama_kas']) ?> (Saldo: Rp <?= number_format($k['saldo'] ?? 0, 0, ',', '.') ?>)</option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
+            <!-- 2. Pilihan Kantong Kas & Kategori -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">2. Pos / Kantong Kas</label>
+                    <select name="kas_id" class="w-full text-xs sm:text-sm border border-gray-200 rounded-xl p-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option value="">Semua Kantong Kas</option>
+                        <?php if (!empty($kas_list)): ?>
+                            <?php foreach ($kas_list as $k): ?>
+                                <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nama_kas']) ?> (Saldo: Rp <?= number_format($k['saldo'] ?? 0, 0, ',', '.') ?>)</option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Kategori Transaksi</label>
+                    <select name="kategori_id" class="w-full text-xs sm:text-sm border border-gray-200 rounded-xl p-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option value="">Semua Kategori (Pemasukan & Pengeluaran)</option>
+                        <optgroup label="── Pos Pemasukan ──">
+                            <?php foreach ($katMasukList as $kat): ?>
+                                <option value="<?= $kat['id'] ?>"><?= htmlspecialchars($kat['nama']) ?></option>
+                            <?php endforeach; ?>
+                        </optgroup>
+                        <optgroup label="── Pos Pengeluaran ──">
+                            <?php foreach ($katKeluarList as $kat): ?>
+                                <option value="<?= $kat['id'] ?>"><?= htmlspecialchars($kat['nama']) ?></option>
+                            <?php endforeach; ?>
+                        </optgroup>
+                    </select>
+                </div>
             </div>
 
             <!-- 3. Format & Layout Tampilan -->
