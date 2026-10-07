@@ -6,11 +6,12 @@
     <?php 
     $brandLogo = !empty($platformProfile['app_logo']) ? BASE_URL . '/' . ltrim($platformProfile['app_logo'], '/') : BASE_URL . '/public/img/logo-transparent.png';
     $brandFavicon = !empty($platformProfile['app_favicon']) ? BASE_URL . '/' . ltrim($platformProfile['app_favicon'], '/') : BASE_URL . '/public/img/favicon.png';
+    $brandFaviconVer = $brandFavicon . '?v=' . filemtime(ROOT_PATH . '/public/img/favicon.png');
     $brandName = $platformProfile['app_name'] ?? 'Jejak Muslim Indonesia';
     ?>
     <title><?= isset($title) ? $title . ' - ' : '' ?>Dashboard | <?= htmlspecialchars($brandName) ?></title>
-    <link rel="icon" type="image/png" href="<?= $brandFavicon ?>">
-    <link rel="apple-touch-icon" href="<?= $brandFavicon ?>">
+    <link rel="icon" type="image/png" href="<?= $brandFaviconVer ?>">
+    <link rel="apple-touch-icon" href="<?= $brandFaviconVer ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
