@@ -62,6 +62,27 @@
                 align-self: flex-start !important;
             }
         }
+
+        /* Print Media Style to cleanly hide sidebar and headers */
+        @media print {
+            #sidebar, header, #sidebar-overlay, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .page-container, .space-y-4, .space-y-6 {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-body text-gray-800 antialiased">
