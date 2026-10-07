@@ -17,32 +17,34 @@ foreach ($list as $t) {
 ?>
 
 <div class="space-y-4 sm:space-y-6">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-100">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
+    <!-- Header Banner -->
+    <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="space-y-1">
+            <div class="flex items-center gap-2">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
                     Akuntansi & Kas
                 </span>
-                <span class="text-xs text-gray-400 font-medium">Transparansi Umat</span>
+                <span class="text-xs text-gray-400 font-medium">&bull; Transparansi Keuangan Masjid</span>
             </div>
             <h1 class="font-heading font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">Buku Kas & Transaksi Keuangan</h1>
-            <p class="text-xs sm:text-sm text-gray-500 mt-1 max-w-xl">Pencatatan real-time infaq, sedekah, dan operasional masjid yang akuntabel</p>
+            <p class="text-xs sm:text-sm text-gray-500 max-w-xl">Pencatatan real-time infaq, sedekah, dan operasional masjid yang akuntabel</p>
         </div>
-        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
-            <button type="button" onclick="openPrintModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-300 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs sm:text-sm shadow-sm transition">
+        
+        <!-- Action Buttons: Clean Single Row on Desktop -->
+        <div class="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+            <button type="button" onclick="openPrintModal()" class="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs sm:text-sm shadow-sm transition whitespace-nowrap">
                 <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
                 </svg>
                 <span>Cetak / Ekspor</span>
             </button>
-            <a href="<?= BASE_URL ?>/admin/keuangan/laporan" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 font-semibold text-xs sm:text-sm shadow-sm transition">
+            <a href="<?= BASE_URL ?>/admin/keuangan/laporan" class="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 font-semibold text-xs sm:text-sm shadow-sm transition whitespace-nowrap">
                 <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                 </svg>
                 <span>Grafik Bulanan</span>
             </a>
-            <a href="<?= BASE_URL ?>/admin/keuangan/create" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 sm:px-5 rounded-xl shadow hover:shadow-md transition text-xs sm:text-sm">
+            <a href="<?= BASE_URL ?>/admin/keuangan/create" class="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow transition whitespace-nowrap">
                 <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -51,70 +53,78 @@ foreach ($list as $t) {
         </div>
     </div>
 
-    <!-- Saldo & Rekap 4 Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <!-- Card 1: Saldo Kas Total -->
-        <div class="bg-gradient-to-br from-emerald-600 to-teal-800 rounded-2xl p-4 sm:p-5 text-white shadow-md flex items-center justify-between">
+    <!-- Saldo & Rekap 4 Cards: Symmetrical & Balanced -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1: Total Seluruh Kas -->
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-800 rounded-2xl p-5 text-white shadow-sm flex flex-col justify-between min-h-[118px]">
+            <div class="flex items-start justify-between gap-2">
+                <span class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Total Kas Masjid</span>
+                <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                    </svg>
+                </div>
+            </div>
             <div>
-                <p class="text-[11px] font-medium text-emerald-100 uppercase tracking-wider">Total Seluruh Kas</p>
-                <p class="text-lg sm:text-xl font-bold font-mono mt-1 text-white">
+                <p class="text-xl sm:text-2xl font-extrabold font-mono text-white">
                     Rp <?= number_format($total_saldo ?? 0, 0, ',', '.') ?>
                 </p>
-                <span class="inline-block mt-1 text-[10px] text-emerald-200">Akumulasi seluruh kantong kas</span>
-            </div>
-            <div class="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
-                </svg>
+                <p class="text-[11px] text-emerald-200 mt-0.5">Saldo riil semua kantong kas</p>
             </div>
         </div>
 
-        <!-- Card 2: Pemasukan Halaman Ini -->
-        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
-            <div class="min-w-0">
-                <p class="text-[11px] font-medium text-gray-500 uppercase tracking-wider truncate">Pemasukan (Tampil)</p>
-                <p class="text-base sm:text-xl font-bold text-emerald-600 mt-1 font-mono truncate">
+        <!-- Card 2: Pemasukan -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col justify-between min-h-[118px]">
+            <div class="flex items-start justify-between gap-2">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pemasukan</span>
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0-6.75-6.75M12 19.5l6.75-6.75" />
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <p class="text-xl sm:text-2xl font-extrabold text-emerald-600 font-mono">
                     +Rp <?= number_format($totalMasuk, 0, ',', '.') ?>
                 </p>
-                <span class="text-[10px] text-gray-400">Total debit tersaring</span>
-            </div>
-            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0-6.75-6.75M12 19.5l6.75-6.75" />
-                </svg>
+                <p class="text-[11px] text-gray-400 mt-0.5">Total debit tersaring</p>
             </div>
         </div>
 
-        <!-- Card 3: Pengeluaran Halaman Ini -->
-        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
-            <div class="min-w-0">
-                <p class="text-[11px] font-medium text-gray-500 uppercase tracking-wider truncate">Pengeluaran (Tampil)</p>
-                <p class="text-base sm:text-xl font-bold text-rose-600 mt-1 font-mono truncate">
+        <!-- Card 3: Pengeluaran -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col justify-between min-h-[118px]">
+            <div class="flex items-start justify-between gap-2">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pengeluaran</span>
+                <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19.5v-15m0 0-6.75 6.75M12 4.5l6.75 6.75" />
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <p class="text-xl sm:text-2xl font-extrabold text-rose-600 font-mono">
                     -Rp <?= number_format($totalKeluar, 0, ',', '.') ?>
                 </p>
-                <span class="text-[10px] text-gray-400">Total kredit tersaring</span>
-            </div>
-            <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19.5v-15m0 0-6.75 6.75M12 4.5l6.75 6.75" />
-                </svg>
+                <p class="text-[11px] text-gray-400 mt-0.5">Total kredit tersaring</p>
             </div>
         </div>
 
-        <!-- Card 4: Selisih Bersih -->
-        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
-            <div class="min-w-0">
-                <p class="text-[11px] font-medium text-gray-500 uppercase tracking-wider truncate">Selisih Mutasi</p>
+        <!-- Card 4: Selisih Mutasi -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col justify-between min-h-[118px]">
+            <div class="flex items-start justify-between gap-2">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Selisih Mutasi</span>
+                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                    </svg>
+                </div>
+            </div>
+            <div>
                 <?php $selisih = $totalMasuk - $totalKeluar; ?>
-                <p class="text-base sm:text-xl font-bold <?= $selisih >= 0 ? 'text-blue-600' : 'text-rose-600' ?> mt-1 font-mono truncate">
+                <p class="text-xl sm:text-2xl font-extrabold <?= $selisih >= 0 ? 'text-blue-600' : 'text-rose-600' ?> font-mono">
                     <?= $selisih >= 0 ? '+' : '' ?>Rp <?= number_format($selisih, 0, ',', '.') ?>
                 </p>
-                <span class="text-[10px] text-gray-400">Surplus / defisit periode</span>
-            </div>
-            <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-                </svg>
+                <p class="text-[11px] text-gray-400 mt-0.5">Surplus / defisit periode</p>
             </div>
         </div>
     </div>
