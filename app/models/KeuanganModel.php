@@ -56,7 +56,12 @@ class KeuanganModel extends Model {
         return $kasModel->findByMasjid($masjidId);
     }
 
-    public function getKategoriList() {
+    public function getKategoriList($masjidId = null) {
+        if ($masjidId !== null) {
+            $stmt = $this->db->prepare("SELECT * FROM kategori_keuangan WHERE masjid_id = :masjid_id OR (masjid_id IS NULL AND is_default = 1) ORDER BY tipe ASC, nama ASC");
+            $stmt->execute(['masjid_id' => $masjidId]);
+            return $stmt->fetchAll();
+        }
         $stmt = $this->db->query("SELECT * FROM kategori_keuangan ORDER BY tipe ASC, nama ASC");
         return $stmt->fetchAll();
     }

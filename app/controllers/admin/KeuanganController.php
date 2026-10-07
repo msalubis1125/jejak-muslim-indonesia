@@ -33,7 +33,7 @@ class KeuanganController extends Controller {
             'title' => 'Manajemen Keuangan',
             'transaksi' => $keuanganModel->getPaginated($this->masjidId, $kasId, $kategoriId, $tipe, $page, 15),
             'kas_list' => $kasList,
-            'kategori_list' => $keuanganModel->getKategoriList(),
+            'kategori_list' => $keuanganModel->getKategoriList($this->masjidId),
             'total_saldo' => $totalSaldo
         ];
 
@@ -45,7 +45,7 @@ class KeuanganController extends Controller {
         $data = [
             'title' => 'Tambah Transaksi',
             'kas_list' => $keuanganModel->getKasList($this->masjidId),
-            'kategori_list' => $keuanganModel->getKategoriList()
+            'kategori_list' => $keuanganModel->getKategoriList($this->masjidId)
         ];
         $this->view('admin/keuangan/form', $data);
     }
@@ -93,12 +93,71 @@ class KeuanganController extends Controller {
             'title' => 'Edit Transaksi',
             'transaksi' => $keuanganModel->findByIdAndMasjid($id, $this->masjidId),
             'kas_list' => $keuanganModel->getKasList($this->masjidId),
-            'kategori_list' => $keuanganModel->getKategoriList()
+            'kategori_list' => $keuanganModel->getKategoriList($this->masjidId)
         ];
         if (!$data['transaksi']) {
             $this->redirect('admin/keuangan');
         }
         $this->view('admin/keuangan/form', $data);
+    }
+
+    public function addKategori() {
+        if (!$this->isPost() || !CSRF::verify($_POST['csrf_token'] ?? '')) {
+            $this->redirect('admin/keuangan');
+        }
+
+        $nama = trim($_POST['nama'] ?? '');
+        $tipe = $_POST['tipe'] ?? 'pemasukan';
+
+        if (empty($nama)) {
+            Session::flash('error', 'Nama kategori tidak boleh kosong.');
+            $this->redirect('admin/keuangan');
+        }
+
+        if (!in_array($tipe, ['pemasukan', 'pengeluaran'])) {
+            $tipe = ($tipe === 'keluar') ? 'pengeluaran' : 'pemasukan';
+        }
+
+        try {
+            $keuanganModel = $this->model('KeuanganModel');
+            $keuanganModel->createKategori([
+                'nama' => $nama,
+                'tipe' => $tipe,
+                'is_default' => 0,
+                'masjid_id' => $this->masjidId
+            ]);
+            Session::flash('success', "Kategori '{$nama}' berhasil ditambahkan ke masjid Anda.");
+        } catch (Exception $e) {
+            Session::flash('error', 'Gagal menambahkan kategori.');
+        }
+
+        $this->redirect('admin/keuangan');
+    }
+
+    public function deleteKategori($id) {
+        if (!$this->isPost() || !CSRF::verify($_POST['csrf_token'] ?? '')) {
+            $this->redirect('admin/keuangan');
+        }
+
+        try {
+            $keuanganModel = $this->model('KeuanganModel');
+            // Pastikan kategori milik masjid yang sedang login (bukan default milik sistem)
+            $db = Database::getInstance()->getConnection();
+            $stmt = $db->prepare("SELECT * FROM kategori_keuangan WHERE id = :id AND masjid_id = :masjid_id");
+            $stmt->execute(['id' => $id, 'masjid_id' => $this->masjidId]);
+            $kat = $stmt->fetch();
+
+            if ($kat) {
+                $keuanganModel->deleteKategori($id);
+                Session::flash('success', "Kategori '{$kat['nama']}' berhasil dihapus.");
+            } else {
+                Session::flash('error', 'Kategori bawaan sistem tidak dapat dihapus.');
+            }
+        } catch (Exception $e) {
+            Session::flash('error', 'Gagal menghapus kategori.');
+        }
+
+        $this->redirect('admin/keuangan');
     }
 
     public function update($id) {
@@ -235,7 +294,7 @@ class KeuanganController extends Controller {
         // Informasi Kategori Terpilih (jika difilter per kategori)
         $namaKategori = 'Semua Kategori';
         if ($kategoriId) {
-            $katList = $keuanganModel->getKategoriList();
+            $katList = $keuanganModel->getKategoriList($this->masjidId);
             foreach ($katList as $katItem) {
                 if ($katItem['id'] == $kategoriId) {
                     $namaKategori = $katItem['nama'];

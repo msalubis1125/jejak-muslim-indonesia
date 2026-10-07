@@ -32,6 +32,13 @@ foreach ($list as $t) {
         
         <!-- Action Buttons: Clean Single Row on Desktop -->
         <div class="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+            <button type="button" onclick="openKategoriModal()" class="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 font-semibold text-xs sm:text-sm shadow-sm transition whitespace-nowrap">
+                <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.386a48.09 48.09 0 0 0 5.405-5.405c.486-.827.313-1.908-.386-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+                <span>Kelola Kategori</span>
+            </button>
             <button type="button" onclick="openPrintModal()" class="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs sm:text-sm shadow-sm transition whitespace-nowrap">
                 <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
@@ -465,6 +472,25 @@ foreach ($list as $t) {
                 </div>
             </div>
 
+            <!-- Pilihan Tipe Transaksi -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Tipe Mutasi Dicetak</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <label class="flex items-center justify-center p-2 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 text-center has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50/40">
+                        <input type="radio" name="tipe" value="" checked class="hidden">
+                        <span class="text-xs font-semibold text-gray-800">Semua Mutasi</span>
+                    </label>
+                    <label class="flex items-center justify-center p-2 border border-gray-200 rounded-xl cursor-pointer hover:bg-emerald-50 text-center has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50/40">
+                        <input type="radio" name="tipe" value="masuk" class="hidden">
+                        <span class="text-xs font-semibold text-emerald-700">Pemasukan Saja (+)</span>
+                    </label>
+                    <label class="flex items-center justify-center p-2 border border-gray-200 rounded-xl cursor-pointer hover:bg-rose-50 text-center has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50/40">
+                        <input type="radio" name="tipe" value="keluar" class="hidden">
+                        <span class="text-xs font-semibold text-rose-700">Pengeluaran Saja (-)</span>
+                    </label>
+                </div>
+            </div>
+
             <!-- 3. Format & Layout Tampilan -->
             <div>
                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">3. Format Layout</label>
@@ -611,6 +637,116 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Tutup modal jika klik di luar box
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closePrintModal();
+    if (e.key === 'Escape') {
+        closePrintModal();
+        closeKategoriModal();
+    }
 });
+
+function openKategoriModal() {
+    const modal = document.getElementById('kategoriModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeKategoriModal() {
+    const modal = document.getElementById('kategoriModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
 </script>
+
+<!-- Modal Kelola Kategori Mandiri Takmir Masjid -->
+<div id="kategoriModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-gray-100 w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+        <!-- Header Modal -->
+        <div class="px-5 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-emerald-50/50 shrink-0">
+            <div>
+                <h3 class="text-base sm:text-lg font-bold text-gray-900 font-heading">Kelola Kategori Kas Masjid</h3>
+                <p class="text-xs text-gray-500">Kategori mandiri khusus masjid Anda (Masjid, Anak Yatim, MDA, Dhuafa, dll)</p>
+            </div>
+            <button type="button" onclick="closeKategoriModal()" class="w-8 h-8 rounded-full bg-white hover:bg-gray-100 text-gray-400 hover:text-gray-600 flex items-center justify-center transition border border-gray-100">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-5 sm:p-6 overflow-y-auto space-y-5 custom-scrollbar flex-1">
+            <!-- Form Tambah Kategori Baru -->
+            <form action="<?= BASE_URL ?>/admin/keuangan/addKategori" method="POST" class="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-3">
+                <input type="hidden" name="csrf_token" value="<?= CSRF::generate() ?>">
+                <span class="block text-xs font-bold text-gray-700 uppercase tracking-wider">+ Tambah Kategori Baru</span>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-[11px] font-medium text-gray-600 mb-1">Nama Kategori</label>
+                        <input type="text" name="nama" required placeholder="Contoh: Anak Yatim, MDA, Dhuafa" class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-gray-600 mb-1">Tipe Mutasi</label>
+                        <select name="tipe" class="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="pemasukan">Pemasukan (+)</option>
+                            <option value="pengeluaran">Pengeluaran (-)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    <span>Simpan Kategori Baru</span>
+                </button>
+            </form>
+
+            <!-- Daftar Kategori Aktif -->
+            <div>
+                <span class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2.5">Daftar Kategori Kas Masjid</span>
+                <div class="space-y-1.5 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
+                    <?php foreach ($kategori_list as $kItem): 
+                        $isCustom = !empty($kItem['masjid_id']);
+                        $isMasuk = strtolower($kItem['tipe']) === 'pemasukan' || strtolower($kItem['tipe']) === 'masuk';
+                    ?>
+                        <div class="flex items-center justify-between p-2.5 bg-white border border-gray-100 rounded-xl hover:border-gray-200 transition">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full <?= $isMasuk ? 'bg-emerald-500' : 'bg-rose-500' ?>"></span>
+                                <span class="text-xs sm:text-sm font-semibold text-gray-800"><?= htmlspecialchars($kItem['nama']) ?></span>
+                                <span class="text-[10px] px-2 py-0.5 rounded-full font-medium <?= $isMasuk ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700' ?>">
+                                    <?= $isMasuk ? 'Pemasukan' : 'Pengeluaran' ?>
+                                </span>
+                                <?php if ($isCustom): ?>
+                                    <span class="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-medium">Khusus Masjid</span>
+                                <?php else: ?>
+                                    <span class="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">Default Sistem</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <?php if ($isCustom): ?>
+                                <form action="<?= BASE_URL ?>/admin/keuangan/deleteKategori/<?= $kItem['id'] ?>" method="POST" onsubmit="return confirm('Hapus kategori ini?')" class="inline">
+                                    <input type="hidden" name="csrf_token" value="<?= CSRF::generate() ?>">
+                                    <button type="submit" class="p-1 text-gray-400 hover:text-rose-600 transition" title="Hapus Kategori">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Modal -->
+        <div class="px-5 py-3 border-t border-gray-100 bg-gray-50 flex justify-end shrink-0">
+            <button type="button" onclick="closeKategoriModal()" class="px-4 py-2 border border-gray-200 text-gray-600 hover:bg-white rounded-xl text-xs sm:text-sm font-medium transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>

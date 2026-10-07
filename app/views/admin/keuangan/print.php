@@ -287,37 +287,66 @@
         </div>
 
         <!-- Judul Laporan -->
+        <!-- Judul Laporan Dinamis Berdasarkan Tipe -->
+        <?php
+        $judulDokumen = 'LAPORAN PERTANGGUNGJAWABAN KEUANGAN';
+        if ($tipe_filter === 'masuk') {
+            $judulDokumen = 'LAPORAN PENERIMAAN KAS & INFAQ';
+        } elseif ($tipe_filter === 'keluar') {
+            $judulDokumen = 'LAPORAN PENGELUARAN & BIAYA OPERASIONAL';
+        }
+        ?>
         <div class="doc-title">
-            <h2>LAPORAN PERTANGGUNGJAWABAN KEUANGAN</h2>
+            <h2><?= $judulDokumen ?></h2>
             <div class="meta">
                 Periode: <strong><?= htmlspecialchars($periode_label) ?></strong> &bull; Kantong Kas: <strong><?= htmlspecialchars($nama_kas) ?></strong>
                 <?php if (!empty($kategori_id) && !empty($nama_kategori)): ?>
                     &bull; Pos Kategori: <strong style="color: #059669;"><?= htmlspecialchars($nama_kategori) ?></strong>
                 <?php endif; ?>
                 <?php if (!empty($tipe_filter)): ?>
-                    &bull; Tipe: <strong><?= ($tipe_filter === 'masuk') ? 'Pemasukan (+)' : 'Pengeluaran (-)' ?></strong>
+                    &bull; Tipe Mutasi: <strong><?= ($tipe_filter === 'masuk') ? 'Pemasukan Saja (+)' : 'Pengeluaran Saja (-)' ?></strong>
                 <?php endif; ?>
             </div>
         </div>
 
-        <!-- 4 Kotak Saldo Utama -->
+        <!-- Kotak Saldo Utama -->
         <div class="summary-grid">
-            <div class="summary-card">
-                <div class="label">Saldo Awal Periode</div>
-                <div class="value mono">Rp <?= number_format($report['saldo_awal'], 0, ',', '.') ?></div>
-            </div>
-            <div class="summary-card">
-                <div class="label">Total Pemasukan (+)</div>
-                <div class="value mono text-emerald">Rp <?= number_format($report['total_masuk'], 0, ',', '.') ?></div>
-            </div>
-            <div class="summary-card">
-                <div class="label">Total Pengeluaran (-)</div>
-                <div class="value mono text-rose">Rp <?= number_format($report['total_keluar'], 0, ',', '.') ?></div>
-            </div>
-            <div class="summary-card highlight">
-                <div class="label">Saldo Akhir Periode</div>
-                <div class="value mono" style="color: #065f46;">Rp <?= number_format($report['saldo_akhir'], 0, ',', '.') ?></div>
-            </div>
+            <?php if ($tipe_filter === 'masuk'): ?>
+                <div class="summary-card">
+                    <div class="label">Total Transaksi Masuk</div>
+                    <div class="value mono"><?= count($report['transaksi']) ?> Transaksi</div>
+                </div>
+                <div class="summary-card highlight" style="grid-column: span 3;">
+                    <div class="label">TOTAL PENERIMAAN KAS (+)</div>
+                    <div class="value mono text-emerald" style="font-size: 16pt;">Rp <?= number_format($report['total_masuk'], 0, ',', '.') ?></div>
+                </div>
+            <?php elseif ($tipe_filter === 'keluar'): ?>
+                <div class="summary-card">
+                    <div class="label">Total Transaksi Keluar</div>
+                    <div class="value mono"><?= count($report['transaksi']) ?> Transaksi</div>
+                </div>
+                <div class="summary-card highlight" style="grid-column: span 3;">
+                    <div class="label">TOTAL PENGELUARAN KAS (-)</div>
+                    <div class="value mono text-rose" style="font-size: 16pt;">Rp <?= number_format($report['total_keluar'], 0, ',', '.') ?></div>
+                </div>
+            <?php else: ?>
+                <div class="summary-card">
+                    <div class="label">Saldo Awal Periode</div>
+                    <div class="value mono">Rp <?= number_format($report['saldo_awal'], 0, ',', '.') ?></div>
+                </div>
+                <div class="summary-card">
+                    <div class="label">Total Pemasukan (+)</div>
+                    <div class="value mono text-emerald">Rp <?= number_format($report['total_masuk'], 0, ',', '.') ?></div>
+                </div>
+                <div class="summary-card">
+                    <div class="label">Total Pengeluaran (-)</div>
+                    <div class="value mono text-rose">Rp <?= number_format($report['total_keluar'], 0, ',', '.') ?></div>
+                </div>
+                <div class="summary-card highlight">
+                    <div class="label">Saldo Akhir Periode</div>
+                    <div class="value mono" style="color: #065f46;">Rp <?= number_format($report['saldo_akhir'], 0, ',', '.') ?></div>
+                </div>
+            <?php endif; ?>
         </div>
 
         <?php if ($format === 'ringkasan'): ?>
