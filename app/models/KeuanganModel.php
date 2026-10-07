@@ -239,6 +239,96 @@ class KeuanganModel extends Model {
         return $stmt->fetchAll();
     }
 
+    public function getDetailedReport($masjidId, $filters = []) {
+        $startDate = $filters['start_date'] ?? null;
+        $endDate = $filters['end_date'] ?? null;
+        $kasId = !empty($filters['kas_id']) ? (int)$filters['kas_id'] : null;
+
+        // 1. Hitung Saldo Awal (sebelum startDate)
+        $saldoAwal = 0;
+        if ($startDate) {
+            $sqlAwal = "SELECT 
+                            COALESCE(SUM(CASE WHEN tipe = 'masuk' THEN nominal ELSE 0 END), 0) -
+                            COALESCE(SUM(CASE WHEN tipe = 'keluar' THEN nominal ELSE 0 END), 0) AS saldo_awal
+                        FROM {$this->table}
+                        WHERE is_deleted = 0 AND tanggal < :start_date";
+            $paramsAwal = ['start_date' => $startDate];
+            if ($masjidId !== null) {
+                $sqlAwal .= " AND masjid_id = :masjid_id";
+                $paramsAwal['masjid_id'] = $masjidId;
+            }
+            if ($kasId) {
+                $sqlAwal .= " AND kas_id = :kas_id";
+                $paramsAwal['kas_id'] = $kasId;
+            }
+            $stmtAwal = $this->db->prepare($sqlAwal);
+            $stmtAwal->execute($paramsAwal);
+            $saldoAwal = (float)$stmtAwal->fetchColumn();
+        }
+
+        // 2. Transaksi dalam rentang tanggal
+        $sqlTx = "SELECT k.*, kas.nama_kas, kat.nama as nama_kategori 
+                  FROM {$this->table} k 
+                  LEFT JOIN kas ON k.kas_id = kas.id 
+                  LEFT JOIN kategori_keuangan kat ON k.kategori_id = kat.id 
+                  WHERE k.is_deleted = 0";
+        $paramsTx = [];
+        if ($masjidId !== null) {
+            $sqlTx .= " AND k.masjid_id = :masjid_id";
+            $paramsTx['masjid_id'] = $masjidId;
+        }
+        if ($kasId) {
+            $sqlTx .= " AND k.kas_id = :kas_id";
+            $paramsTx['kas_id'] = $kasId;
+        }
+        if ($startDate) {
+            $sqlTx .= " AND k.tanggal >= :start_date";
+            $paramsTx['start_date'] = $startDate;
+        }
+        if ($endDate) {
+            $sqlTx .= " AND k.tanggal <= :end_date";
+            $paramsTx['end_date'] = $endDate;
+        }
+        $sqlTx .= " ORDER BY k.tanggal ASC, k.id ASC";
+
+        $stmtTx = $this->db->prepare($sqlTx);
+        $stmtTx->execute($paramsTx);
+        $transaksi = $stmtTx->fetchAll();
+
+        // 3. Ringkasan per Kategori & Total
+        $totalMasuk = 0;
+        $totalKeluar = 0;
+        $kategoriMasuk = [];
+        $kategoriKeluar = [];
+
+        foreach ($transaksi as $t) {
+            $nom = (float)($t['nominal'] ?? 0);
+            $kat = $t['nama_kategori'] ?? 'Lain-lain';
+            if (($t['tipe'] ?? '') === 'masuk') {
+                $totalMasuk += $nom;
+                $kategoriMasuk[$kat] = ($kategoriMasuk[$kat] ?? 0) + $nom;
+            } else {
+                $totalKeluar += $nom;
+                $kategoriKeluar[$kat] = ($kategoriKeluar[$kat] ?? 0) + $nom;
+            }
+        }
+        arsort($kategoriMasuk);
+        arsort($kategoriKeluar);
+
+        $saldoAkhir = $saldoAwal + $totalMasuk - $totalKeluar;
+
+        return [
+            'saldo_awal' => $saldoAwal,
+            'total_masuk' => $totalMasuk,
+            'total_keluar' => $totalKeluar,
+            'saldo_akhir' => $saldoAkhir,
+            'surplus_defisit' => $totalMasuk - $totalKeluar,
+            'kategori_masuk' => $kategoriMasuk,
+            'kategori_keluar' => $kategoriKeluar,
+            'transaksi' => $transaksi
+        ];
+    }
+
     public function getLaporanBulanan($masjidId, $bulan, $tahun) {
         $stmt = $this->db->prepare("
             SELECT k.tipe, k.kategori_id, kat.nama as nama_kategori, SUM(k.nominal) as total 

@@ -23,12 +23,18 @@ foreach ($list as $t) {
             <h1 class="font-heading font-bold text-xl sm:text-2xl text-gray-800">Buku Kas & Transaksi Keuangan</h1>
             <p class="text-xs sm:text-sm text-gray-500 mt-1">Kelola pencatatan infaq, sedekah, dan operasional masjid secara transparan</p>
         </div>
-        <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+            <button type="button" onclick="openPrintModal()" class="flex-1 sm:flex-initial inline-flex justify-center items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 text-xs sm:text-sm font-semibold transition text-center whitespace-nowrap">
+                <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
+                </svg>
+                <span>Cetak / Ekspor</span>
+            </button>
             <a href="<?= BASE_URL ?>/admin/keuangan/laporan" class="flex-1 sm:flex-initial inline-flex justify-center items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 text-xs sm:text-sm font-medium transition text-center whitespace-nowrap">
                 <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
-                <span>Laporan Bulanan</span>
+                <span>Grafik Bulanan</span>
             </a>
             <a href="<?= BASE_URL ?>/admin/keuangan/create" class="flex-1 sm:flex-initial inline-flex justify-center items-center gap-1.5 sm:gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 sm:py-2.5 px-3 sm:px-5 rounded-xl shadow-sm hover:shadow transition text-xs sm:text-sm text-center whitespace-nowrap">
                 <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
@@ -251,3 +257,228 @@ foreach ($list as $t) {
         <?php endif; ?>
     </div>
 </div>
+
+<!-- Modal Filter Cetak & Ekspor Laporan Keuangan -->
+<div id="printModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-gray-100 overflow-hidden transform transition-all">
+        <!-- Modal Header -->
+        <div class="px-6 py-5 bg-gradient-to-r from-emerald-600 to-teal-700 text-white flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-white">Cetak & Ekspor Laporan</h3>
+                    <p class="text-xs text-emerald-100">Sesuaikan periode, format, dan kantong kas</p>
+                </div>
+            </div>
+            <button type="button" onclick="closePrintModal()" class="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Modal Body Form -->
+        <form id="printFilterForm" method="GET" action="<?= BASE_URL ?>/admin/keuangan/print" target="_blank" class="p-6 space-y-5">
+            <!-- 1. Pilihan Periode -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">1. Periode Waktu Laporan</label>
+                <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                    <label class="flex items-center gap-2.5 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 border-emerald-500 bg-emerald-50/40" id="label_opt_jumat">
+                        <input type="radio" name="periode" value="jumat" checked onchange="handlePeriodeChange('jumat')" class="text-emerald-600 focus:ring-emerald-500">
+                        <div>
+                            <span class="block text-xs sm:text-sm font-semibold text-gray-800">Shalat Jumat</span>
+                            <span class="block text-[11px] text-gray-500">1 pekan terakhir (mading/mimbar)</span>
+                        </div>
+                    </label>
+
+                    <label class="flex items-center gap-2.5 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 border-gray-200" id="label_opt_bulan">
+                        <input type="radio" name="periode" value="bulan" onchange="handlePeriodeChange('bulan')" class="text-emerald-600 focus:ring-emerald-500">
+                        <div>
+                            <span class="block text-xs sm:text-sm font-semibold text-gray-800">Bulanan</span>
+                            <span class="block text-[11px] text-gray-500">Pilih bulan & tahun</span>
+                        </div>
+                    </label>
+
+                    <label class="flex items-center gap-2.5 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 border-gray-200" id="label_opt_tahun">
+                        <input type="radio" name="periode" value="tahun" onchange="handlePeriodeChange('tahun')" class="text-emerald-600 focus:ring-emerald-500">
+                        <div>
+                            <span class="block text-xs sm:text-sm font-semibold text-gray-800">Tahunan</span>
+                            <span class="block text-[11px] text-gray-500">1 tahun buku penuh</span>
+                        </div>
+                    </label>
+
+                    <label class="flex items-center gap-2.5 p-3 border rounded-xl cursor-pointer hover:bg-gray-50 border-gray-200" id="label_opt_custom">
+                        <input type="radio" name="periode" value="custom" onchange="handlePeriodeChange('custom')" class="text-emerald-600 focus:ring-emerald-500">
+                        <div>
+                            <span class="block text-xs sm:text-sm font-semibold text-gray-800">Rentang Kustom</span>
+                            <span class="block text-[11px] text-gray-500">Tentukan tanggal bebas</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Input Dinamis Berdasarkan Periode -->
+            <div id="dynamicBulanBox" class="hidden p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex gap-2">
+                <div class="flex-1">
+                    <label class="block text-[11px] font-medium text-gray-600 mb-1">Bulan</label>
+                    <select name="bulan" class="w-full text-xs sm:text-sm border-gray-200 rounded-lg p-2 bg-white">
+                        <?php
+                        $mList = [1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',9=>'September',10=>'Oktober',11=>'November',12=>'Desember'];
+                        foreach ($mList as $mNum => $mNama):
+                        ?>
+                            <option value="<?= str_pad($mNum, 2, '0', STR_PAD_LEFT) ?>" <?= date('m') == $mNum ? 'selected' : '' ?>><?= $mNama ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="w-1/3">
+                    <label class="block text-[11px] font-medium text-gray-600 mb-1">Tahun</label>
+                    <select name="tahun" class="w-full text-xs sm:text-sm border-gray-200 rounded-lg p-2 bg-white">
+                        <?php for ($y = date('Y'); $y >= date('Y') - 3; $y--): ?>
+                            <option value="<?= $y ?>"><?= $y ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div id="dynamicCustomBox" class="hidden p-3.5 bg-gray-50 rounded-xl border border-gray-100 flex gap-2">
+                <div class="flex-1">
+                    <label class="block text-[11px] font-medium text-gray-600 mb-1">Dari Tanggal</label>
+                    <input type="date" name="start_date" value="<?= date('Y-m-01') ?>" class="w-full text-xs sm:text-sm border-gray-200 rounded-lg p-2 bg-white">
+                </div>
+                <div class="flex-1">
+                    <label class="block text-[11px] font-medium text-gray-600 mb-1">Sampai Tanggal</label>
+                    <input type="date" name="end_date" value="<?= date('Y-m-d') ?>" class="w-full text-xs sm:text-sm border-gray-200 rounded-lg p-2 bg-white">
+                </div>
+            </div>
+
+            <!-- 2. Pilihan Kantong Kas -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">2. Pilih Pos / Kantong Kas</label>
+                <select name="kas_id" class="w-full text-xs sm:text-sm border border-gray-200 rounded-xl p-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <option value="">Semua Kantong Kas (Kas Operasional, Yatim, Pembangunan, dll)</option>
+                    <?php if (!empty($kas_list)): ?>
+                        <?php foreach ($kas_list as $k): ?>
+                            <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nama_kas']) ?> (Saldo: Rp <?= number_format($k['saldo'] ?? 0, 0, ',', '.') ?>)</option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
+
+            <!-- 3. Format & Layout Tampilan -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">3. Format Layout</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex items-center gap-2 p-2.5 border rounded-xl cursor-pointer hover:bg-gray-50 border-emerald-500 bg-emerald-50/30">
+                        <input type="radio" name="format" value="ringkasan" checked class="text-emerald-600 focus:ring-emerald-500">
+                        <div>
+                            <span class="block text-xs sm:text-sm font-semibold text-gray-800">Ringkasan Pos (1 Halaman)</span>
+                            <span class="block text-[10px] text-gray-500">Hemat kertas, cocok untuk mading</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-2 p-2.5 border rounded-xl cursor-pointer hover:bg-gray-50 border-gray-200">
+                        <input type="radio" name="format" value="detail" class="text-emerald-600 focus:ring-emerald-500">
+                        <div>
+                            <span class="block text-xs sm:text-sm font-semibold text-gray-800">Buku Kas Rinci</span>
+                            <span class="block text-[10px] text-gray-500">Seluruh tabel mutasi transaksi</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 4. Opsi Tanda Tangan Resmi -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
+                <span class="text-xs font-medium text-gray-700">Cantumkan Kolom Tanda Tangan Pengurus (DKM & Bendahara)</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" name="ttd" value="1" checked class="sr-only peer">
+                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+                </label>
+            </div>
+
+            <!-- Modal Footer Buttons -->
+            <div class="pt-2 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+                <button type="button" onclick="submitToExportCsv()" class="w-full sm:flex-1 inline-flex justify-center items-center gap-1.5 px-4 py-2.5 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 text-xs sm:text-sm font-semibold transition text-center">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Unduh File CSV / Excel</span>
+                </button>
+                <button type="submit" onclick="submitToPrintView()" class="w-full sm:flex-1 inline-flex justify-center items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold shadow-sm hover:shadow transition text-center">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    <span>Buka Tampilan Cetak</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPrintModal() {
+    const modal = document.getElementById('printModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closePrintModal() {
+    const modal = document.getElementById('printModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
+
+function handlePeriodeChange(val) {
+    const bulanBox = document.getElementById('dynamicBulanBox');
+    const customBox = document.getElementById('dynamicCustomBox');
+    
+    // Reset border styling pada label
+    ['jumat', 'bulan', 'tahun', 'custom'].forEach(p => {
+        const el = document.getElementById('label_opt_' + p);
+        if (el) {
+            if (p === val) {
+                el.classList.add('border-emerald-500', 'bg-emerald-50/40');
+                el.classList.remove('border-gray-200');
+            } else {
+                el.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+                el.classList.add('border-gray-200');
+            }
+        }
+    });
+
+    if (val === 'bulan') {
+        bulanBox.classList.remove('hidden');
+        customBox.classList.add('hidden');
+    } else if (val === 'custom') {
+        bulanBox.classList.add('hidden');
+        customBox.classList.remove('hidden');
+    } else {
+        bulanBox.classList.add('hidden');
+        customBox.classList.add('hidden');
+    }
+}
+
+function submitToPrintView() {
+    const form = document.getElementById('printFilterForm');
+    form.action = '<?= BASE_URL ?>/admin/keuangan/print';
+    form.target = '_blank';
+}
+
+function submitToExportCsv() {
+    const form = document.getElementById('printFilterForm');
+    form.action = '<?= BASE_URL ?>/admin/keuangan/exportCsv';
+    form.target = '_self';
+    form.submit();
+}
+
+// Tutup modal jika klik di luar box
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePrintModal();
+});
+</script>
