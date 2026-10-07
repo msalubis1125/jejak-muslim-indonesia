@@ -26,11 +26,15 @@ class KeuanganController extends Controller {
         $tipe = $_GET['tipe'] ?? null;
         $page = (int)($_GET['page'] ?? 1);
 
+        $kasList = $keuanganModel->getKasList($this->masjidId);
+        $totalSaldo = $keuanganModel->getTotalSaldo($this->masjidId);
+
         $data = [
             'title' => 'Manajemen Keuangan',
             'transaksi' => $keuanganModel->getPaginated($this->masjidId, $kasId, $kategoriId, $tipe, $page, 15),
-            'kas_list' => $keuanganModel->getKasList($this->masjidId),
-            'kategori_list' => $keuanganModel->getKategoriList()
+            'kas_list' => $kasList,
+            'kategori_list' => $keuanganModel->getKategoriList(),
+            'total_saldo' => $totalSaldo
         ];
 
         $this->view('admin/keuangan/index', $data);
