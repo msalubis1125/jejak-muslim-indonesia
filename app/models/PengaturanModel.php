@@ -77,6 +77,9 @@ class PengaturanModel extends Model {
     }
 
     public function getPlatformProfile() {
+        $logo = $this->get('app_logo', 'public/img/logo-transparent.png');
+        $favicon = $this->get('app_favicon', 'public/img/favicon.png');
+
         return [
             'app_name' => $this->get('app_name', 'Jejak Muslim Indonesia'),
             'app_tagline' => $this->get('app_tagline', 'Pusat Ekosistem Digital Masjid Nusantara'),
@@ -87,7 +90,9 @@ class PengaturanModel extends Model {
             'app_facebook' => $this->get('app_facebook', 'https://facebook.com/jejakmuslim.id'),
             'app_instagram' => $this->get('app_instagram', 'https://instagram.com/jejakmuslim.id'),
             'app_youtube' => $this->get('app_youtube', 'https://youtube.com/@jejakmuslimid'),
-            'app_whatsapp' => $this->get('app_whatsapp', 'https://wa.me/6281234567890')
+            'app_whatsapp' => $this->get('app_whatsapp', 'https://wa.me/6281234567890'),
+            'app_logo' => $logo,
+            'app_favicon' => $favicon
         ];
     }
 
@@ -95,7 +100,7 @@ class PengaturanModel extends Model {
         $keys = [
             'app_name', 'app_tagline', 'app_about', 'app_email', 
             'app_phone', 'app_address', 'app_facebook', 'app_instagram', 
-            'app_youtube', 'app_whatsapp'
+            'app_youtube', 'app_whatsapp', 'app_logo', 'app_favicon'
         ];
         foreach ($keys as $k) {
             if (isset($data[$k])) {
