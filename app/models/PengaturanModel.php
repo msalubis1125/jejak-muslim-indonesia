@@ -75,4 +75,33 @@ class PengaturanModel extends Model {
         }
         return true;
     }
+
+    public function getPlatformProfile() {
+        return [
+            'app_name' => $this->get('app_name', 'Jejak Muslim Indonesia'),
+            'app_tagline' => $this->get('app_tagline', 'Pusat Ekosistem Digital Masjid Nusantara'),
+            'app_about' => $this->get('app_about', 'Jejak Muslim Indonesia adalah platform digital terpadu yang menghubungkan masjid, takmir, dan jamaah di seluruh nusantara. Kami menyediakan pencarian masjid berbasis GIS, jadwal shalat akurat, agenda kegiatan dakwah, transparansi keuangan kas masjid, serta kemudahan infaq digital.'),
+            'app_email' => $this->get('app_email', 'kontak@jejakmuslim.id'),
+            'app_phone' => $this->get('app_phone', '0812-3456-7890'),
+            'app_address' => $this->get('app_address', 'Jakarta, Indonesia'),
+            'app_facebook' => $this->get('app_facebook', 'https://facebook.com/jejakmuslim.id'),
+            'app_instagram' => $this->get('app_instagram', 'https://instagram.com/jejakmuslim.id'),
+            'app_youtube' => $this->get('app_youtube', 'https://youtube.com/@jejakmuslimid'),
+            'app_whatsapp' => $this->get('app_whatsapp', 'https://wa.me/6281234567890')
+        ];
+    }
+
+    public function updatePlatformProfile($data) {
+        $keys = [
+            'app_name', 'app_tagline', 'app_about', 'app_email', 
+            'app_phone', 'app_address', 'app_facebook', 'app_instagram', 
+            'app_youtube', 'app_whatsapp'
+        ];
+        foreach ($keys as $k) {
+            if (isset($data[$k])) {
+                $this->set($k, trim($data[$k]));
+            }
+        }
+        return true;
+    }
 }

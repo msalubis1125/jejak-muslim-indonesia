@@ -25,7 +25,10 @@ class App {
                     'usermgmt' => 'UserMgmtController',
                     'masterdata' => 'MasterDataController',
                     'qris' => 'QrisSettingsController',
-                    'pengaturan' => 'QrisSettingsController'
+                    'pengaturan' => 'QrisSettingsController',
+                    'profil' => 'PlatformProfileController',
+                    'profilplatform' => 'PlatformProfileController',
+                    'platform' => 'PlatformProfileController'
                 ];
                 $target = strtolower($url[0] ?? '');
                 if (isset($map[$target])) {
