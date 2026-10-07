@@ -113,61 +113,52 @@ function initPrayerCountdown() {
         const currentHours = now.getHours();
         const currentMinutes = now.getMinutes();
         const currentSeconds = now.getSeconds();
-        const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+        const currentTimeInSeconds = currentHours * 3600 + currentMinutes * 60 + currentSeconds;
 
-        let nextPrayer = null;
-        let nextPrayerTimeInMinutes = 24 * 60;
+        // Convert prayer times to seconds from midnight
+        const prayerSchedule = [
+            { key: 'Fajr', name: 'Subuh', time: prayerTimes['Fajr'] },
+            { key: 'Dhuhr', name: 'Dzuhur', time: prayerTimes['Dhuhr'] },
+            { key: 'Asr', name: 'Ashar', time: prayerTimes['Asr'] },
+            { key: 'Maghrib', name: 'Maghrib', time: prayerTimes['Maghrib'] },
+            { key: 'Isha', name: 'Isya', time: prayerTimes['Isha'] }
+        ].map(item => {
+            const [h, m] = (item.time || '00:00').split(':').map(Number);
+            return {
+                ...item,
+                seconds: h * 3600 + m * 60
+            };
+        });
 
         // Find upcoming prayer today
-        for (const [key, timeStr] of Object.entries(prayerTimes)) {
-            const parts = timeStr.split(':');
-            const hours = parseInt(parts[0], 10);
-            const minutes = parseInt(parts[1], 10);
-            const timeInMinutes = hours * 60 + minutes;
+        let nextPrayer = prayerSchedule.find(p => p.seconds > currentTimeInSeconds);
+        let secondsLeft = 0;
 
-            if (timeInMinutes > currentTimeInMinutes) {
-                nextPrayer = key;
-                nextPrayerTimeInMinutes = timeInMinutes;
-                break;
-            }
-        }
-
-        // If all prayers today have passed, next is Subuh tomorrow
-        let isNextDay = false;
-        if (!nextPrayer) {
-            nextPrayer = 'Fajr';
-            isNextDay = true;
-            const parts = prayerTimes['Fajr'].split(':');
-            const hours = parseInt(parts[0], 10);
-            const minutes = parseInt(parts[1], 10);
-            nextPrayerTimeInMinutes = (24 * 60) + (hours * 60 + minutes);
+        if (nextPrayer) {
+            secondsLeft = nextPrayer.seconds - currentTimeInSeconds;
+        } else {
+            // All prayers today have passed, target is Subuh tomorrow
+            nextPrayer = prayerSchedule[0]; // Fajr
+            const secondsUntilMidnight = (24 * 3600) - currentTimeInSeconds;
+            secondsLeft = secondsUntilMidnight + nextPrayer.seconds;
         }
 
         if (nextPrayerNameEl) {
-            nextPrayerNameEl.textContent = PRAYER_NAMES[nextPrayer] || nextPrayer;
+            nextPrayerNameEl.textContent = nextPrayer.name;
         }
         if (nextPrayerTimeEl) {
-            nextPrayerTimeEl.textContent = prayerTimes[nextPrayer] || '';
+            nextPrayerTimeEl.textContent = nextPrayer.time;
         }
 
-        // Calculate difference in seconds
-        let diffMinutes = nextPrayerTimeInMinutes - currentTimeInMinutes - 1;
-        let diffSeconds = 60 - currentSeconds;
-        
-        if (diffSeconds === 60) {
-            diffSeconds = 0;
-            diffMinutes += 1;
-        }
-
-        if (diffMinutes < 0) diffMinutes = 0;
-
-        const hoursLeft = Math.floor(diffMinutes / 60);
-        const minutesLeft = diffMinutes % 60;
+        // Format countdown H:M:S
+        const hoursLeft = Math.floor(secondsLeft / 3600);
+        const minutesLeft = Math.floor((secondsLeft % 3600) / 60);
+        const secsLeft = secondsLeft % 60;
 
         countdownTimerEl.textContent = 
-            `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${diffSeconds.toString().padStart(2, '0')}`;
+            `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}:${secsLeft.toString().padStart(2, '0')}`;
             
-        highlightCurrentSlot(nextPrayer);
+        highlightCurrentSlot(nextPrayer.key);
     }
 
     function updateSlotsUI() {
