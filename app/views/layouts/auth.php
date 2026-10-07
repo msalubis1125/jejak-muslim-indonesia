@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($title) ? $title . ' - ' : '' ?>Jejak Muslim Indonesia</title>
-    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/img/favicon.png">
-    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/public/img/favicon.png">
+    <?php 
+    $brandLogo = !empty($platformProfile['app_logo']) ? BASE_URL . '/' . ltrim($platformProfile['app_logo'], '/') : BASE_URL . '/public/img/logo-transparent.png';
+    $brandFavicon = !empty($platformProfile['app_favicon']) ? BASE_URL . '/' . ltrim($platformProfile['app_favicon'], '/') : BASE_URL . '/public/img/favicon.png';
+    $brandName = $platformProfile['app_name'] ?? 'Jejak Muslim Indonesia';
+    $brandTagline = $platformProfile['app_tagline'] ?? 'Sistem Tata Kelola & Portofolio Masjid';
+    ?>
+    <title><?= isset($title) ? $title . ' - ' : '' ?><?= htmlspecialchars($brandName) ?></title>
+    <link rel="icon" type="image/png" href="<?= $brandFavicon ?>">
+    <link rel="apple-touch-icon" href="<?= $brandFavicon ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,10 +56,10 @@
         <!-- Logo & Header -->
         <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-20 h-20 bg-white border border-gray-100 rounded-3xl shadow-md p-3 mb-4">
-                <img src="<?= BASE_URL ?>/public/img/logo-transparent.png" alt="Logo" class="w-full h-full object-contain">
+                <img src="<?= $brandLogo ?>" alt="Logo <?= htmlspecialchars($brandName) ?>" class="w-full h-full object-contain">
             </div>
             <h1 class="font-heading font-bold text-2xl text-gray-900">Jejak Muslim <span class="text-red-600">Indonesia</span></h1>
-            <p class="text-gray-500 text-sm mt-1">Sistem Tata Kelola & Portofolio Masjid</p>
+            <p class="text-gray-500 text-sm mt-1"><?= htmlspecialchars($brandTagline) ?></p>
         </div>
 
         <!-- Flash Messages -->
