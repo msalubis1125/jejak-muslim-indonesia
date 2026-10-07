@@ -51,10 +51,21 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        /* Ensure sidebar stays strictly locked to viewport */
+        @media (min-width: 1024px) {
+            #sidebar {
+                position: sticky !important;
+                top: 0 !important;
+                height: 100vh !important;
+                max-height: 100vh !important;
+                align-self: flex-start !important;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-body text-gray-800 antialiased overflow-x-hidden w-full max-w-full">
-    <div class="flex min-h-screen w-full max-w-full overflow-x-hidden">
+<body class="bg-gray-50 font-body text-gray-800 antialiased">
+    <div class="flex min-h-screen w-full relative">
 
         <!-- Sidebar Overlay (Mobile) -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
