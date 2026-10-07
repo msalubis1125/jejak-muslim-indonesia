@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($title) ? $title . ' - ' : '' ?>Dashboard | Jejak Muslim Indonesia</title>
-    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/img/favicon.png">
-    <link rel="apple-touch-icon" href="<?= BASE_URL ?>/public/img/favicon.png">
+    <?php 
+    $brandLogo = !empty($platformProfile['app_logo']) ? BASE_URL . '/' . ltrim($platformProfile['app_logo'], '/') : BASE_URL . '/public/img/logo-transparent.png';
+    $brandFavicon = !empty($platformProfile['app_favicon']) ? BASE_URL . '/' . ltrim($platformProfile['app_favicon'], '/') : BASE_URL . '/public/img/favicon.png';
+    $brandName = $platformProfile['app_name'] ?? 'Jejak Muslim Indonesia';
+    ?>
+    <title><?= isset($title) ? $title . ' - ' : '' ?>Dashboard | <?= htmlspecialchars($brandName) ?></title>
+    <link rel="icon" type="image/png" href="<?= $brandFavicon ?>">
+    <link rel="apple-touch-icon" href="<?= $brandFavicon ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +64,7 @@
             <!-- Logo -->
             <div class="h-16 flex items-center gap-3 px-5 border-b border-primary-700/50">
                 <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
-                    <img src="<?= BASE_URL ?>/public/img/logo-transparent.png" alt="Logo" class="w-full h-full object-contain">
+                    <img src="<?= $brandLogo ?>" alt="Logo <?= htmlspecialchars($brandName) ?>" class="w-full h-full object-contain">
                 </div>
                 <div class="flex flex-col">
                     <span class="font-heading font-bold text-base leading-tight">Jejak Muslim</span>

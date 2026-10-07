@@ -39,6 +39,20 @@ class Controller {
         require $file;
         $content = ob_get_clean();
 
+        // Automatically inject platform branding if available
+        if (!isset($platformProfile)) {
+            try {
+                $pengaturanModel = $this->model('PengaturanModel');
+                $platformProfile = $pengaturanModel->getPlatformProfile();
+            } catch (Exception $e) {
+                $platformProfile = [
+                    'app_name' => 'Jejak Muslim Indonesia',
+                    'app_logo' => 'public/img/logo-transparent.png',
+                    'app_favicon' => 'public/img/favicon.png'
+                ];
+            }
+        }
+
         // Render layout
         $layoutFile = ROOT_PATH . '/app/views/' . $layout . '.php';
         if (file_exists($layoutFile)) {
