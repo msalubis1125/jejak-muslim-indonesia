@@ -59,79 +59,130 @@
         <!-- Sidebar Overlay (Mobile) -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
 
-        <!-- Sidebar -->
-        <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-primary-800 text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shrink-0">
-            <!-- Logo -->
-            <div class="h-16 flex items-center gap-3 px-5 border-b border-primary-700/50">
-                <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
+        <!-- Sidebar (Fixed/Sticky full height, independent internal scroll) -->
+        <!-- Sidebar (Sticky full viewport height with internal smooth scroll) -->
+        <?php
+        $isSuperAdmin = Auth::isSuperAdmin();
+        $sidebarBg = $isSuperAdmin ? 'bg-slate-900 border-r border-slate-800' : 'bg-[#064e3b] border-r border-emerald-900';
+        $sidebarSubtext = $isSuperAdmin ? 'text-indigo-400' : 'text-emerald-300';
+        $activeClass = $isSuperAdmin ? 'bg-indigo-600 text-white shadow-sm font-semibold' : 'bg-emerald-600 text-white shadow-sm font-semibold';
+        $hoverClass = $isSuperAdmin ? 'text-slate-300 hover:bg-slate-800/80 hover:text-white' : 'text-emerald-100 hover:bg-emerald-800/70 hover:text-white';
+        $sectionHeaderClass = $isSuperAdmin ? 'text-slate-500 font-semibold tracking-wider text-[10px] uppercase px-3 pt-3 pb-1' : 'text-emerald-300/60 font-semibold tracking-wider text-[10px] uppercase px-3 pt-3 pb-1';
+        $currentUri = $_SERVER['REQUEST_URI'] ?? '';
+        ?>
+        <aside id="sidebar" class="fixed lg:sticky top-0 inset-y-0 left-0 z-50 w-64 h-screen <?= $sidebarBg ?> text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shrink-0 overflow-hidden shadow-xl lg:shadow-none">
+            <!-- Brand / Logo Header -->
+            <div class="h-16 flex items-center gap-3 px-5 border-b <?= $isSuperAdmin ? 'border-slate-800' : 'border-emerald-800/60' ?> shrink-0">
+                <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-sm shrink-0">
                     <img src="<?= $brandLogo ?>" alt="Logo <?= htmlspecialchars($brandName) ?>" class="w-full h-full object-contain">
                 </div>
-                <div class="flex flex-col">
-                    <span class="font-heading font-bold text-base leading-tight">Jejak Muslim</span>
-                    <span class="text-[10px] text-emerald-300 font-semibold tracking-wider uppercase leading-tight">Indonesia</span>
+                <div class="flex flex-col min-w-0">
+                    <span class="font-heading font-bold text-sm tracking-tight truncate text-white">Jejak Muslim</span>
+                    <span class="text-[10px] <?= $sidebarSubtext ?> font-semibold tracking-wider uppercase leading-tight truncate">
+                        <?= $isSuperAdmin ? 'Pusat Kendali Ekosistem' : 'Portal Manajemen Masjid' ?>
+                    </span>
                 </div>
             </div>
 
-            <!-- Navigation -->
-            <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <!-- Navigation Menu (Categorized with Section Headers) -->
+            <nav class="flex-1 overflow-y-auto py-3 px-3 space-y-3 custom-scrollbar">
                 <?php
-                $currentMenu = isset($currentMenu) ? $currentMenu : '';
-
-                if (Auth::isSuperAdmin()) {
-                    // Menu Khusus Super Administrator (Pusat Kendali Platform)
-                    $menuItems = [
-                        ['url' => '/admin/dashboard', 'label' => 'Dashboard Pusat', 'key' => 'dashboard', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />'],
-                        ['url' => '/admin/superadmin/profil', 'label' => 'Profil Platform', 'key' => 'platform_profile', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-.778.099-1.533.284-2.253" />'],
-                        ['url' => '/admin/superadmin/verifikasi', 'label' => 'Verifikasi Masjid', 'key' => 'verifikasi', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />'],
-                        ['url' => '/admin/superadmin/masjidverif/allMasjid', 'label' => 'Semua Data Masjid', 'key' => 'allmasjid', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21" />'],
-                        ['url' => '/admin/superadmin/users', 'label' => 'Kelola Pengguna', 'key' => 'users', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />'],
-                        ['url' => '/admin/superadmin/masterdata', 'label' => 'Master Kategori Kas', 'key' => 'masterdata', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />'],
-                        ['url' => '/admin/superadmin/qris', 'label' => 'QRIS Donasi Website', 'key' => 'qris_settings', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h3.75m0 0v3.75m0-3.75h3.75m-3.75 3.75v3.75m0-3.75h-3.75" />'],
-                        ['url' => '/admin/artikelmgmt', 'label' => 'Artikel & Buletin', 'key' => 'artikel', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />'],
+                if ($isSuperAdmin) {
+                    $navSections = [
+                        'Utama & Identitas' => [
+                            ['url' => '/admin/dashboard', 'match' => ['/admin/dashboard'], 'label' => 'Dashboard Pusat', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />'],
+                            ['url' => '/admin/superadmin/profil', 'match' => ['/admin/superadmin/profil', 'profilplatform'], 'label' => 'Profil Platform', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-.778.099-1.533.284-2.253" />']
+                        ],
+                        'Tata Kelola Ekosistem' => [
+                            ['url' => '/admin/superadmin/verifikasi', 'match' => ['/admin/superadmin/verifikasi', '/admin/superadmin/masjidverif'], 'label' => 'Verifikasi Masjid', 'badge' => $pending_verifikasi ?? null, 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />'],
+                            ['url' => '/admin/superadmin/masjidverif/allMasjid', 'match' => ['/allMasjid', '/superadmin/masjidverif/allMasjid'], 'label' => 'Semua Data Masjid', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21" />'],
+                            ['url' => '/admin/superadmin/masterdata', 'match' => ['/admin/superadmin/masterdata', 'masterdata'], 'label' => 'Master Kategori Kas', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />']
+                        ],
+                        'Pengguna & Keuangan' => [
+                            ['url' => '/admin/superadmin/users', 'match' => ['/admin/superadmin/users', 'user-management'], 'label' => 'Kelola Pengguna', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />'],
+                            ['url' => '/admin/superadmin/qris', 'match' => ['/admin/superadmin/qris'], 'label' => 'QRIS Donasi Website', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h3.75m0 0v3.75m0-3.75h3.75m-3.75 3.75v3.75m0-3.75h-3.75" />']
+                        ],
+                        'Konten & Dakwah' => [
+                            ['url' => '/admin/artikelmgmt', 'match' => ['/admin/artikelmgmt', 'artikel'], 'label' => 'Artikel & Buletin', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />']
+                        ]
                     ];
                 } else {
-                    // Menu Khusus Takmir Pengurus Masjid (Tingkat Cabang)
-                    $menuItems = [
-                        ['url' => '/admin/dashboard', 'label' => 'Dashboard', 'key' => 'dashboard', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />'],
-                        ['url' => '/admin/masjid', 'label' => 'Profil Masjid', 'key' => 'masjid', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />'],
-                        ['url' => '/admin/keuangan', 'label' => 'Keuangan & Kas', 'key' => 'keuangan', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />'],
-                        ['url' => '/admin/kegiatan', 'label' => 'Kegiatan & Acara', 'key' => 'kegiatan', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />'],
-                        ['url' => '/admin/jadwalpetugas', 'label' => 'Jadwal Petugas', 'key' => 'jadwal', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />'],
-                        ['url' => '/admin/aset', 'label' => 'Aset & Inventaris', 'key' => 'aset', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />'],
-                        ['url' => '/admin/jamaah', 'label' => 'Direktori Jamaah', 'key' => 'jamaah', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />'],
-                        ['url' => '/admin/donasi', 'label' => 'Donasi & Rekening', 'key' => 'donasi', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />'],
-                        ['url' => '/admin/artikelmgmt', 'label' => 'Artikel & Buletin', 'key' => 'artikel', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />'],
+                    $navSections = [
+                        'Utama' => [
+                            ['url' => '/admin/dashboard', 'match' => ['/admin/dashboard'], 'label' => 'Dashboard', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />'],
+                            ['url' => '/admin/masjid', 'match' => ['/admin/masjid'], 'label' => 'Profil Masjid & GIS', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />']
+                        ],
+                        'Operasional & Kas' => [
+                            ['url' => '/admin/keuangan', 'match' => ['/admin/keuangan'], 'label' => 'Keuangan & Kas', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />'],
+                            ['url' => '/admin/kegiatan', 'match' => ['/admin/kegiatan'], 'label' => 'Kegiatan & Acara', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />'],
+                            ['url' => '/admin/jadwalpetugas', 'match' => ['/admin/jadwalpetugas'], 'label' => 'Jadwal Petugas', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />'],
+                            ['url' => '/admin/aset', 'match' => ['/admin/aset'], 'label' => 'Aset & Inventaris', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />']
+                        ],
+                        'Jamaah & Dakwah' => [
+                            ['url' => '/admin/jamaah', 'match' => ['/admin/jamaah'], 'label' => 'Direktori Jamaah', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />'],
+                            ['url' => '/admin/donasi', 'match' => ['/admin/donasi'], 'label' => 'Donasi & Rekening', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />'],
+                            ['url' => '/admin/artikelmgmt', 'match' => ['/admin/artikelmgmt'], 'label' => 'Artikel & Buletin', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />']
+                        ]
                     ];
                 }
 
-                foreach ($menuItems as $item):
-                    $isActive = $currentMenu === $item['key'];
+                foreach ($navSections as $sectionTitle => $items):
                 ?>
-                    <a href="<?= BASE_URL . $item['url'] ?>" 
-                       class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-colors <?= $isActive ? 'bg-primary-900 text-white font-medium shadow-inner' : 'text-primary-100 hover:bg-primary-700/50' ?>">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <?= $item['icon'] ?>
-                        </svg>
-                        <?= $item['label'] ?>
-                    </a>
+                    <div>
+                        <div class="<?= $sectionHeaderClass ?>"><?= $sectionTitle ?></div>
+                        <div class="space-y-1 mt-1">
+                            <?php foreach ($items as $item): 
+                                $isActive = false;
+                                if (!empty($item['match'])) {
+                                    foreach ($item['match'] as $pattern) {
+                                        if (strpos($currentUri, $pattern) !== false) {
+                                            $isActive = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (!$isActive && !empty($currentMenu)) {
+                                    $isActive = (isset($item['key']) && $item['key'] === $currentMenu);
+                                }
+                            ?>
+                                <a href="<?= BASE_URL . $item['url'] ?>" 
+                                   class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition-all <?= $isActive ? $activeClass : $hoverClass ?>">
+                                    <div class="flex items-center gap-3 truncate">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                            <?= $item['icon'] ?>
+                                        </svg>
+                                        <span class="truncate"><?= $item['label'] ?></span>
+                                    </div>
+                                    <?php if (!empty($item['badge']) && $item['badge'] > 0): ?>
+                                        <span class="inline-flex items-center justify-center px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-white shrink-0 animate-pulse">
+                                            <?= $item['badge'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
             </nav>
 
-            <!-- User Info -->
-            <div class="p-4 border-t border-primary-700/50">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 <?= Auth::isSuperAdmin() ? 'bg-indigo-600 ring-2 ring-indigo-400' : 'bg-primary-600' ?> rounded-full flex items-center justify-center text-sm font-semibold shadow shrink-0">
+            <!-- Bottom: Quick Portal Link & User Info Card -->
+            <div class="p-3 border-t <?= $isSuperAdmin ? 'border-slate-800 bg-slate-950/40' : 'border-emerald-800/80 bg-emerald-950/30' ?> shrink-0 space-y-2">
+                <a href="<?= BASE_URL ?>/" target="_blank" class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold <?= $isSuperAdmin ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100' ?> transition shadow-xs">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                    <span>Kunjungi Portal Publik</span>
+                </a>
+
+                <div class="flex items-center gap-2.5 px-2 py-1.5">
+                    <div class="w-8 h-8 <?= $isSuperAdmin ? 'bg-indigo-600 ring-2 ring-indigo-400' : 'bg-emerald-600 ring-2 ring-emerald-400' ?> rounded-full flex items-center justify-center text-xs font-bold shadow shrink-0 text-white">
                         <?= strtoupper(substr(Auth::name(), 0, 1)) ?>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium truncate"><?= htmlspecialchars(Auth::name()) ?></p>
-                        <div class="flex items-center gap-1.5 mt-0.5">
-                            <?php if (Auth::isSuperAdmin()): ?>
-                                <span class="bg-indigo-900 text-indigo-200 border border-indigo-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Super Admin</span>
-                            <?php else: ?>
-                                <span class="bg-emerald-900 text-emerald-200 border border-emerald-500/40 text-[10px] font-medium px-2 py-0.5 rounded-full">Takmir</span>
-                            <?php endif; ?>
-                        </div>
+                        <p class="text-xs font-semibold truncate text-white leading-tight"><?= htmlspecialchars(Auth::name()) ?></p>
+                        <p class="text-[10px] <?= $sidebarSubtext ?> truncate mt-0.5 font-medium">
+                            <?= $isSuperAdmin ? 'Super Administrator' : 'Takmir Pengurus' ?>
+                        </p>
                     </div>
                 </div>
             </div>
