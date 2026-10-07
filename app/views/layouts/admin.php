@@ -74,16 +74,16 @@
         <!-- Sidebar (Sticky full viewport height with internal smooth scroll) -->
         <?php
         $isSuperAdmin = Auth::isSuperAdmin();
-        $sidebarBg = $isSuperAdmin ? 'bg-slate-900 border-r border-slate-800' : 'bg-[#064e3b] border-r border-emerald-900';
-        $sidebarSubtext = $isSuperAdmin ? 'text-indigo-400' : 'text-emerald-300';
-        $activeClass = $isSuperAdmin ? 'bg-indigo-600 text-white shadow-sm font-semibold' : 'bg-emerald-600 text-white shadow-sm font-semibold';
-        $hoverClass = $isSuperAdmin ? 'text-slate-300 hover:bg-slate-800/80 hover:text-white' : 'text-emerald-100 hover:bg-emerald-800/70 hover:text-white';
+        $sidebarBg = $isSuperAdmin ? 'bg-[#0b1329] border-r border-[#1e293b]' : 'bg-[#064e3b] border-r border-emerald-900';
+        $sidebarSubtext = $isSuperAdmin ? 'text-blue-400' : 'text-emerald-300';
+        $activeClass = $isSuperAdmin ? 'bg-blue-600 text-white shadow-md font-semibold' : 'bg-emerald-600 text-white shadow-sm font-semibold';
+        $hoverClass = $isSuperAdmin ? 'text-slate-300 hover:bg-slate-800/90 hover:text-white' : 'text-emerald-100 hover:bg-emerald-800/70 hover:text-white';
         $sectionHeaderClass = $isSuperAdmin ? 'text-slate-500 font-semibold tracking-wider text-[10px] uppercase px-3 pt-3 pb-1' : 'text-emerald-300/60 font-semibold tracking-wider text-[10px] uppercase px-3 pt-3 pb-1';
         $currentUri = $_SERVER['REQUEST_URI'] ?? '';
         ?>
         <aside id="sidebar" class="fixed lg:sticky top-0 inset-y-0 left-0 z-50 w-64 h-screen <?= $sidebarBg ?> text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shrink-0 overflow-hidden shadow-xl lg:shadow-none">
             <!-- Brand / Logo Header -->
-            <div class="h-16 flex items-center gap-3 px-5 border-b <?= $isSuperAdmin ? 'border-slate-800' : 'border-emerald-800/60' ?> shrink-0">
+            <div class="h-16 flex items-center gap-3 px-5 border-b <?= $isSuperAdmin ? 'border-slate-800/80' : 'border-emerald-800/60' ?> shrink-0">
                 <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1.5 shadow-sm shrink-0">
                     <img src="<?= $brandLogo ?>" alt="Logo <?= htmlspecialchars($brandName) ?>" class="w-full h-full object-contain">
                 </div>
@@ -111,7 +111,7 @@
                         ],
                         'Pengguna & Keuangan' => [
                             ['url' => '/admin/superadmin/users', 'match' => ['/admin/superadmin/users', 'user-management'], 'label' => 'Kelola Pengguna', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />'],
-                            ['url' => '/admin/superadmin/qris', 'match' => ['/admin/superadmin/qris'], 'label' => 'QRIS Donasi Website', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h3.75m0 0v3.75m0-3.75h3.75m-3.75 3.75v3.75m0-3.75h-3.75" />']
+                            ['url' => '/admin/superadmin/qris', 'match' => ['/admin/superadmin/qris'], 'label' => 'QRIS Donasi Website', 'icon' => '<path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" /><path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h3.75m0 0v3.75m0-3.75h3.75m-3.75 3.75v3.75m0-3.75h-3.75" />']
                         ],
                         'Konten & Dakwah' => [
                             ['url' => '/admin/artikelmgmt', 'match' => ['/admin/artikelmgmt', 'artikel'], 'label' => 'Artikel & Buletin', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />']
@@ -177,8 +177,8 @@
             </nav>
 
             <!-- Bottom: Quick Portal Link & User Info Card -->
-            <div class="p-3 border-t <?= $isSuperAdmin ? 'border-slate-800 bg-slate-950/40' : 'border-emerald-800/80 bg-emerald-950/30' ?> shrink-0 space-y-2">
-                <a href="<?= BASE_URL ?>/" target="_blank" class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold <?= $isSuperAdmin ? 'bg-slate-800 hover:bg-slate-700 text-slate-200' : 'bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100' ?> transition shadow-xs">
+            <div class="p-3 border-t <?= $isSuperAdmin ? 'border-slate-800/80 bg-[#070d1e]/80' : 'border-emerald-800/80 bg-emerald-950/30' ?> shrink-0 space-y-2">
+                <a href="<?= BASE_URL ?>/" target="_blank" class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold <?= $isSuperAdmin ? 'bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700/50' : 'bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100' ?> transition shadow-xs">
                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                     </svg>
@@ -186,7 +186,7 @@
                 </a>
 
                 <div class="flex items-center gap-2.5 px-2 py-1.5">
-                    <div class="w-8 h-8 <?= $isSuperAdmin ? 'bg-indigo-600 ring-2 ring-indigo-400' : 'bg-emerald-600 ring-2 ring-emerald-400' ?> rounded-full flex items-center justify-center text-xs font-bold shadow shrink-0 text-white">
+                    <div class="w-8 h-8 <?= $isSuperAdmin ? 'bg-blue-600 ring-2 ring-blue-400' : 'bg-emerald-600 ring-2 ring-emerald-400' ?> rounded-full flex items-center justify-center text-xs font-bold shadow shrink-0 text-white">
                         <?= strtoupper(substr(Auth::name(), 0, 1)) ?>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -214,8 +214,8 @@
                     <h1 class="font-heading font-semibold text-sm sm:text-base lg:text-lg text-gray-800 truncate"><?= $title ?? 'Dashboard' ?></h1>
 
                     <?php if (Auth::isSuperAdmin()): ?>
-                        <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+                        <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
                             Super Admin
                         </span>
                     <?php else: ?>
@@ -229,8 +229,8 @@
                 <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                     <!-- Super Admin Mode Badge -->
                     <?php if (Auth::isSuperAdmin()): ?>
-                        <div class="hidden md:flex items-center gap-1.5 text-xs text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-lg font-medium">
-                            <svg class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        <div class="hidden md:flex items-center gap-1.5 text-xs text-blue-700 bg-blue-50/80 border border-blue-200/80 px-3 py-1.5 rounded-lg font-medium">
+                            <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                             <span>Akses Seluruh Masjid</span>
                         </div>
                     <?php endif; ?>

@@ -4,23 +4,23 @@ $isSuperAdmin = !empty($is_super_admin);
 
 <div class="space-y-4 sm:space-y-6">
     <?php if ($isSuperAdmin): ?>
-        <!-- SUPER ADMIN DASHBOARD HEADER (Precision Bento Banner) -->
-        <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 p-6 sm:p-7 rounded-2xl shadow-sm border border-slate-800 text-white">
-            <!-- Subtle geometric glow -->
-            <div class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute right-32 -bottom-16 w-48 h-48 bg-teal-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <!-- SUPER ADMIN DASHBOARD HEADER (Deep Oceanic Sapphire Bento Banner) -->
+        <div class="relative overflow-hidden bg-gradient-to-r from-[#0b1329] via-[#0f2042] to-[#1e3a8a] p-6 sm:p-7 rounded-2xl shadow-sm border border-slate-800/80 text-white">
+            <!-- Subtle oceanic sapphire glow -->
+            <div class="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute right-32 -bottom-16 w-48 h-48 bg-sky-400/10 rounded-full blur-2xl pointer-events-none"></div>
 
             <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
                 <div>
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-500/20 text-blue-200 border border-blue-400/30">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
                             Pusat Kendali Nasional
                         </span>
-                        <span class="text-xs text-slate-400 font-medium">&bull; Administrator Platform</span>
+                        <span class="text-xs text-blue-200/60 font-medium">&bull; Administrator Platform</span>
                     </div>
                     <h1 class="font-heading font-extrabold text-2xl sm:text-3xl text-white tracking-tight">Pusat Kendali Jejak Muslim Indonesia</h1>
-                    <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">Pemantauan ekosistem digital masjid nusantara, tata kelola data takmir, dan verifikasi legalitas publik</p>
+                    <p class="text-xs sm:text-sm text-blue-100/80 mt-1 max-w-xl">Pemantauan ekosistem digital masjid nusantara, tata kelola data takmir, dan verifikasi legalitas publik</p>
                 </div>
                 <div class="flex items-center gap-2.5 sm:gap-3 flex-wrap sm:flex-nowrap">
                     <?php if (($pending_verifikasi ?? 0) > 0): ?>
@@ -31,14 +31,14 @@ $isSuperAdmin = !empty($is_super_admin);
                             <span>Verifikasi Masjid (<?= $pending_verifikasi ?> Perlu Ditinjau)</span>
                         </a>
                     <?php else: ?>
-                        <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="inline-flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl transition whitespace-nowrap">
+                        <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="inline-flex items-center gap-2 bg-[#122347] hover:bg-[#1a3264] text-blue-100 border border-blue-500/30 text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl transition whitespace-nowrap shadow-xs">
                             <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                             <span>Semua Terverifikasi (0)</span>
                         </a>
                     <?php endif; ?>
-                    <a href="<?= BASE_URL ?>/admin/superadmin/users" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition whitespace-nowrap">
+                    <a href="<?= BASE_URL ?>/admin/superadmin/users" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition whitespace-nowrap">
                         <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                         </svg>
@@ -48,15 +48,15 @@ $isSuperAdmin = !empty($is_super_admin);
             </div>
         </div>
 
-        <!-- Metric Cards: 5 Precision Bento Grid (Stripe Precision) -->
+        <!-- Metric Cards: 5 Precision Bento Grid (Stripe Precision in Oceanic Sapphire) -->
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 hover:border-indigo-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between group">
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 hover:border-blue-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between group">
                 <div>
                     <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Total Masjid</p>
                     <p class="text-xl sm:text-2xl font-extrabold text-gray-900 mt-1 font-mono"><?= number_format($total_masjid ?? 0) ?></p>
                     <span class="text-[10px] text-gray-400 mt-0.5 block">Terdaftar di sistem</span>
                 </div>
-                <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 group-hover:bg-indigo-50 group-hover:text-indigo-600 flex items-center justify-center shrink-0 transition">
+                <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 group-hover:bg-blue-50 group-hover:text-blue-600 flex items-center justify-center shrink-0 transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
                     </svg>
@@ -89,28 +89,28 @@ $isSuperAdmin = !empty($is_super_admin);
                 </div>
             </div>
 
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 hover:border-indigo-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between group">
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 hover:border-blue-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between group">
                 <div>
                     <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">User & Takmir</p>
-                    <p class="text-xl sm:text-2xl font-extrabold text-indigo-600 mt-1 font-mono"><?= number_format($total_users ?? 0) ?></p>
+                    <p class="text-xl sm:text-2xl font-extrabold text-blue-600 mt-1 font-mono"><?= number_format($total_users ?? 0) ?></p>
                     <span class="text-[10px] text-gray-400 mt-0.5 block"><?= $total_takmir ?? 0 ?> pengurus masjid</span>
                 </div>
-                <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 transition">
+                <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                     </svg>
                 </div>
             </div>
 
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 hover:border-teal-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between col-span-2 lg:col-span-1 group">
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200/80 hover:border-cyan-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between col-span-2 lg:col-span-1 group">
                 <div>
                     <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Sebaran Wilayah</p>
-                    <p class="text-xl sm:text-2xl font-extrabold text-teal-700 mt-1 font-mono">
+                    <p class="text-xl sm:text-2xl font-extrabold text-cyan-800 mt-1 font-mono">
                         <?= number_format($total_provinsi ?? 0) ?> <span class="text-xs font-sans font-medium text-gray-400">Prov</span>
                     </p>
-                    <span class="text-[10px] text-teal-600 font-medium mt-0.5 block"><?= number_format($total_kota ?? 0) ?> Kota/Kabupaten</span>
+                    <span class="text-[10px] text-cyan-600 font-medium mt-0.5 block"><?= number_format($total_kota ?? 0) ?> Kota/Kabupaten</span>
                 </div>
-                <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 transition">
+                <div class="w-11 h-11 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15.5 0Z" />
@@ -119,30 +119,30 @@ $isSuperAdmin = !empty($is_super_admin);
             </div>
         </div>
 
-        <!-- QUICK ACCESS HUB (Bento Navigation Hub) -->
+        <!-- QUICK ACCESS HUB (Bento Navigation Hub in Oceanic Sapphire) -->
         <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-200/80">
             <div class="flex items-center justify-between mb-4">
                 <div>
                     <h2 class="font-heading font-bold text-base sm:text-lg text-gray-900">Akses Cepat Tata Kelola Platform</h2>
                     <p class="text-xs text-gray-500 mt-0.5">Navigasi langsung ke modul eksekutif administrasi ekosistem</p>
                 </div>
-                <span class="hidden sm:inline-flex text-[11px] font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                <span class="hidden sm:inline-flex text-[11px] font-semibold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200/80">
                     7 Modul Aktif
                 </span>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
-                <a href="<?= BASE_URL ?>/admin/superadmin/profil" class="p-4 rounded-xl border border-gray-100 hover:border-indigo-400 hover:bg-indigo-50/30 transition-all duration-200 group flex flex-col items-center text-center">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
+                <a href="<?= BASE_URL ?>/admin/superadmin/profil" class="p-4 rounded-xl border border-gray-100 hover:border-blue-400 hover:bg-blue-50/40 transition-all duration-200 group flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-blue-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-.778.099-1.533.284-2.253" />
                         </svg>
                     </div>
-                    <span class="text-xs font-semibold text-gray-800 group-hover:text-indigo-600">Profil Platform</span>
+                    <span class="text-xs font-semibold text-gray-800 group-hover:text-blue-600">Profil Platform</span>
                     <span class="text-[10px] text-gray-400 mt-0.5">Identitas & CS</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="p-4 rounded-xl border border-gray-100 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all duration-200 group flex flex-col items-center text-center">
+                <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="p-4 rounded-xl border border-gray-100 hover:border-emerald-400 hover:bg-emerald-50/40 transition-all duration-200 group flex flex-col items-center text-center">
                     <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-emerald-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
@@ -153,7 +153,7 @@ $isSuperAdmin = !empty($is_super_admin);
                 </a>
 
                 <a href="<?= BASE_URL ?>/admin/superadmin/masjidverif/allMasjid" class="p-4 rounded-xl border border-gray-100 hover:border-slate-400 hover:bg-slate-50 transition-all duration-200 group flex flex-col items-center text-center">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-slate-800 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-[#0b1329] group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21" />
                         </svg>
@@ -162,17 +162,17 @@ $isSuperAdmin = !empty($is_super_admin);
                     <span class="text-[10px] text-gray-400 mt-0.5">Database nasional</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/admin/superadmin/users" class="p-4 rounded-xl border border-gray-100 hover:border-indigo-400 hover:bg-indigo-50/30 transition-all duration-200 group flex flex-col items-center text-center">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
+                <a href="<?= BASE_URL ?>/admin/superadmin/users" class="p-4 rounded-xl border border-gray-100 hover:border-blue-400 hover:bg-blue-50/40 transition-all duration-200 group flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-blue-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                         </svg>
                     </div>
-                    <span class="text-xs font-semibold text-gray-800 group-hover:text-indigo-600">Kelola User</span>
+                    <span class="text-xs font-semibold text-gray-800 group-hover:text-blue-600">Kelola User</span>
                     <span class="text-[10px] text-gray-400 mt-0.5">Role & takmir</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/admin/superadmin/masterdata" class="p-4 rounded-xl border border-gray-100 hover:border-amber-400 hover:bg-amber-50/30 transition-all duration-200 group flex flex-col items-center text-center">
+                <a href="<?= BASE_URL ?>/admin/superadmin/masterdata" class="p-4 rounded-xl border border-gray-100 hover:border-amber-400 hover:bg-amber-50/40 transition-all duration-200 group flex flex-col items-center text-center">
                     <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-amber-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
@@ -182,7 +182,7 @@ $isSuperAdmin = !empty($is_super_admin);
                     <span class="text-[10px] text-gray-400 mt-0.5">Kategori kas global</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/admin/superadmin/qris" class="p-4 rounded-xl border border-gray-100 hover:border-rose-400 hover:bg-rose-50/30 transition-all duration-200 group flex flex-col items-center text-center">
+                <a href="<?= BASE_URL ?>/admin/superadmin/qris" class="p-4 rounded-xl border border-gray-100 hover:border-rose-400 hover:bg-rose-50/40 transition-all duration-200 group flex flex-col items-center text-center">
                     <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-rose-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" />
@@ -192,13 +192,13 @@ $isSuperAdmin = !empty($is_super_admin);
                     <span class="text-[10px] text-gray-400 mt-0.5">Donasi platform</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/admin/artikelmgmt" class="p-4 rounded-xl border border-gray-100 hover:border-teal-400 hover:bg-teal-50/30 transition-all duration-200 group flex flex-col items-center text-center">
-                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-teal-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
+                <a href="<?= BASE_URL ?>/admin/artikelmgmt" class="p-4 rounded-xl border border-gray-100 hover:border-cyan-400 hover:bg-cyan-50/40 transition-all duration-200 group flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-cyan-600 group-hover:text-white text-slate-700 flex items-center justify-center mb-2.5 transition">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                         </svg>
                     </div>
-                    <span class="text-xs font-semibold text-gray-800 group-hover:text-teal-600">Artikel & Buletin</span>
+                    <span class="text-xs font-semibold text-gray-800 group-hover:text-cyan-600">Artikel & Buletin</span>
                     <span class="text-[10px] text-gray-400 mt-0.5">Konten dakwah</span>
                 </a>
             </div>
