@@ -22,6 +22,7 @@ class DashboardController extends Controller {
         $jamaahModel = $this->model('JamaahModel');
 
         if (Auth::isSuperAdmin()) {
+            $nationalStats = $masjidModel->getNationalStats();
             $data = [
                 'title' => 'Pusat Kendali Ekosistem - Super Administrator',
                 'is_super_admin' => true,
@@ -30,7 +31,9 @@ class DashboardController extends Controller {
                 'pending_verifikasi' => $masjidModel->countByStatus('pending'),
                 'total_users' => $userModel->countAll(['is_active' => 1]),
                 'total_takmir' => $userModel->count(['role' => 'takmir', 'is_active' => 1]),
-                'total_saldo_nasional' => $keuanganModel->getTotalSaldo(null),
+                'total_provinsi' => (int)($nationalStats['total_provinsi'] ?? 0),
+                'total_kota' => (int)($nationalStats['total_kota'] ?? 0),
+                'total_kapasitas' => (int)($nationalStats['total_kapasitas'] ?? 0),
                 'pending_list' => $masjidModel->findPending(),
                 'masjid_list' => $masjidModel->findAll(['is_deleted' => 0], 'created_at DESC', 5)
             ];

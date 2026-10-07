@@ -253,5 +253,16 @@ class MasjidModel extends Model {
     public function updateStatus($id, $status) {
         return $this->update($id, ['status' => $status]);
     }
+
+    public function getNationalStats() {
+        $sql = "SELECT 
+                    COUNT(DISTINCT NULLIF(provinsi, '')) as total_provinsi, 
+                    COUNT(DISTINCT NULLIF(kota, '')) as total_kota, 
+                    COALESCE(SUM(kapasitas), 0) as total_kapasitas 
+                FROM {$this->table} 
+                WHERE is_deleted = 0";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetch() ?: ['total_provinsi' => 0, 'total_kota' => 0, 'total_kapasitas' => 0];
+    }
 }
 

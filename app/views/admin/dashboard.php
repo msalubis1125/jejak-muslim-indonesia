@@ -17,12 +17,21 @@ $isSuperAdmin = !empty($is_super_admin);
                 <p class="text-xs sm:text-sm text-gray-500 mt-1 max-w-xl">Pemantauan ekosistem masjid digital, verifikasi legalitas takmir, dan tata kelola master data nasional</p>
             </div>
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
-                <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition whitespace-nowrap">
-                    <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    <span>Verifikasi Masjid (<?= $pending_verifikasi ?? 0 ?>)</span>
-                </a>
+                <?php if (($pending_verifikasi ?? 0) > 0): ?>
+                    <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition whitespace-nowrap animate-pulse">
+                        <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                        <span>Verifikasi Masjid (<?= $pending_verifikasi ?> Perlu Ditinjau)</span>
+                    </a>
+                <?php else: ?>
+                    <a href="<?= BASE_URL ?>/admin/superadmin/verifikasi" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 text-xs sm:text-sm font-semibold py-2.5 px-4 sm:px-5 rounded-xl transition whitespace-nowrap">
+                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        <span>Semua Masjid Terverifikasi (0)</span>
+                    </a>
+                <?php endif; ?>
                 <a href="<?= BASE_URL ?>/admin/superadmin/users" class="inline-flex items-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-xl shadow-sm transition whitespace-nowrap">
                     <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
@@ -86,18 +95,19 @@ $isSuperAdmin = !empty($is_super_admin);
                 </div>
             </div>
 
-            <!-- Card 5: Kas Transparansi Nasional -->
-            <div class="bg-gradient-to-br from-emerald-700 to-teal-900 text-white p-4 sm:p-5 rounded-2xl shadow-sm flex items-center justify-between col-span-2 lg:col-span-1">
+            <!-- Card 5: Jangkauan & Sebaran Wilayah Nasional (Pengganti Kas Nasional) -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between col-span-2 lg:col-span-1">
                 <div>
-                    <p class="text-[11px] font-semibold text-emerald-200 uppercase tracking-wider">Kas Nasional</p>
-                    <p class="text-base sm:text-lg font-extrabold text-white mt-1 font-mono truncate">
-                        Rp <?= number_format($total_saldo_nasional ?? 0, 0, ',', '.') ?>
+                    <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Sebaran Wilayah</p>
+                    <p class="text-xl sm:text-2xl font-extrabold text-teal-700 mt-1 font-mono">
+                        <?= number_format($total_provinsi ?? 0) ?> <span class="text-xs font-sans font-medium text-gray-500">Prov</span>
                     </p>
-                    <span class="text-[10px] text-emerald-200">Akumulasi seluruh masjid</span>
+                    <span class="text-[10px] text-teal-600 font-medium"><?= number_format($total_kota ?? 0) ?> Kota/Kabupaten</span>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-white/15 text-white flex items-center justify-center shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15.5 0Z" />
                     </svg>
                 </div>
             </div>
