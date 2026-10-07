@@ -69,13 +69,34 @@ $nominalVal = !empty($t['nominal']) ? number_format((float)$t['nominal'], 0, '',
 
             <!-- Kategori -->
             <div>
-                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">Kategori <span class="text-rose-500">*</span></label>
-                <select name="kategori_id" required class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    <?php foreach ($kategori_list as $kat): ?>
-                        <option value="<?= $kat['id'] ?>" <?= $selectedKat == $kat['id'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($kat['nama']) ?> (<?= ucfirst($kat['tipe']) ?>)
-                        </option>
-                    <?php endforeach; ?>
+                <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">Kategori Transaksi <span class="text-rose-500">*</span></label>
+                <?php
+                $katMasuk = [];
+                $katKeluar = [];
+                foreach ($kategori_list as $kat) {
+                    if (($kat['tipe'] ?? '') === 'masuk') {
+                        $katMasuk[] = $kat;
+                    } else {
+                        $katKeluar[] = $kat;
+                    }
+                }
+                ?>
+                <select id="formKategori" name="kategori_id" required class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <option value="">-- Pilih Kategori --</option>
+                    <optgroup label="── Pos Pemasukan ──" id="formGroupMasuk">
+                        <?php foreach ($katMasuk as $kat): ?>
+                            <option value="<?= $kat['id'] ?>" data-tipe="masuk" <?= $selectedKat == $kat['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($kat['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </optgroup>
+                    <optgroup label="── Pos Pengeluaran ──" id="formGroupKeluar">
+                        <?php foreach ($katKeluar as $kat): ?>
+                            <option value="<?= $kat['id'] ?>" data-tipe="keluar" <?= $selectedKat == $kat['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($kat['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </optgroup>
                 </select>
             </div>
         </div>
@@ -117,3 +138,36 @@ $nominalVal = !empty($t['nominal']) ? number_format((float)$t['nominal'], 0, '',
         </div>
     </form>
 </div>
+
+<script>
+function syncFormKategori() {
+    const selectedTipe = document.querySelector('input[name="tipe"]:checked')?.value || 'masuk';
+    const katSelect = document.getElementById('formKategori');
+    const groupMasuk = document.getElementById('formGroupMasuk');
+    const groupKeluar = document.getElementById('formGroupKeluar');
+
+    if (!katSelect) return;
+
+    if (selectedTipe === 'masuk') {
+        if (groupMasuk) groupMasuk.style.display = '';
+        if (groupKeluar) groupKeluar.style.display = 'none';
+        const currentSelected = katSelect.options[katSelect.selectedIndex];
+        if (currentSelected && currentSelected.dataset.tipe === 'keluar') {
+            katSelect.value = '';
+        }
+    } else {
+        if (groupMasuk) groupMasuk.style.display = 'none';
+        if (groupKeluar) groupKeluar.style.display = '';
+        const currentSelected = katSelect.options[katSelect.selectedIndex];
+        if (currentSelected && currentSelected.dataset.tipe === 'masuk') {
+            katSelect.value = '';
+        }
+    }
+}
+
+document.querySelectorAll('input[name="tipe"]').forEach(radio => {
+    radio.addEventListener('change', syncFormKategori);
+});
+
+document.addEventListener('DOMContentLoaded', syncFormKategori);
+</script>

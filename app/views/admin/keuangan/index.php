@@ -176,20 +176,43 @@ foreach ($list as $t) {
                 </select>
             </div>
             <div>
-                <select name="tipe" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                <select id="filterTipe" name="tipe" onchange="syncKategoriOptions()" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     <option value="">Semua Tipe Transaksi</option>
-                    <option value="masuk" <?= (isset($_GET['tipe']) && $_GET['tipe'] === 'masuk') ? 'selected' : '' ?>>Pemasukan</option>
-                    <option value="keluar" <?= (isset($_GET['tipe']) && $_GET['tipe'] === 'keluar') ? 'selected' : '' ?>>Pengeluaran</option>
+                    <option value="masuk" <?= (isset($_GET['tipe']) && $_GET['tipe'] === 'masuk') ? 'selected' : '' ?>>Pemasukan (+)</option>
+                    <option value="keluar" <?= (isset($_GET['tipe']) && $_GET['tipe'] === 'keluar') ? 'selected' : '' ?>>Pengeluaran (-)</option>
                 </select>
             </div>
             <div>
-                <select name="kategori" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    <option value="">Semua Kategori</option>
-                    <?php foreach ($kategori_list as $kat): ?>
-                        <option value="<?= $kat['id'] ?>" <?= (isset($_GET['kategori']) && $_GET['kategori'] == $kat['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($kat['nama']) ?> (<?= ucfirst($kat['tipe']) ?>)
-                        </option>
-                    <?php endforeach; ?>
+                <?php
+                $katMasukList = [];
+                $katKeluarList = [];
+                foreach ($kategori_list as $kat) {
+                    if (($kat['tipe'] ?? '') === 'masuk') {
+                        $katMasukList[] = $kat;
+                    } else {
+                        $katKeluarList[] = $kat;
+                    }
+                }
+                $selectedKatId = $_GET['kategori'] ?? '';
+                ?>
+                <select id="filterKategori" name="kategori" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <option value="" data-tipe="all">Semua Kategori</option>
+                    
+                    <optgroup label="── Pos Pemasukan ──" id="optgroupMasuk">
+                        <?php foreach ($katMasukList as $kat): ?>
+                            <option value="<?= $kat['id'] ?>" data-tipe="masuk" <?= ($selectedKatId == $kat['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($kat['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </optgroup>
+
+                    <optgroup label="── Pos Pengeluaran ──" id="optgroupKeluar">
+                        <?php foreach ($katKeluarList as $kat): ?>
+                            <option value="<?= $kat['id'] ?>" data-tipe="keluar" <?= ($selectedKatId == $kat['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($kat['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </optgroup>
                 </select>
             </div>
             <div class="flex gap-2">
@@ -531,6 +554,41 @@ function submitToExportCsv() {
     form.target = '_self';
     form.submit();
 }
+
+function syncKategoriOptions() {
+    const tipe = document.getElementById('filterTipe')?.value || '';
+    const katSelect = document.getElementById('filterKategori');
+    const groupMasuk = document.getElementById('optgroupMasuk');
+    const groupKeluar = document.getElementById('optgroupKeluar');
+
+    if (!katSelect) return;
+
+    if (tipe === 'masuk') {
+        if (groupMasuk) groupMasuk.style.display = '';
+        if (groupKeluar) groupKeluar.style.display = 'none';
+        // Reset pilihan jika saat ini kategori terpilih bertipe keluar
+        const currentSelected = katSelect.options[katSelect.selectedIndex];
+        if (currentSelected && currentSelected.dataset.tipe === 'keluar') {
+            katSelect.value = '';
+        }
+    } else if (tipe === 'keluar') {
+        if (groupMasuk) groupMasuk.style.display = 'none';
+        if (groupKeluar) groupKeluar.style.display = '';
+        // Reset pilihan jika saat ini kategori terpilih bertipe masuk
+        const currentSelected = katSelect.options[katSelect.selectedIndex];
+        if (currentSelected && currentSelected.dataset.tipe === 'masuk') {
+            katSelect.value = '';
+        }
+    } else {
+        // Tampilkan kedua grup
+        if (groupMasuk) groupMasuk.style.display = '';
+        if (groupKeluar) groupKeluar.style.display = '';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    syncKategoriOptions();
+});
 
 // Tutup modal jika klik di luar box
 document.addEventListener('keydown', function(e) {
