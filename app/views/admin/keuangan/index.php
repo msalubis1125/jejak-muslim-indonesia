@@ -187,7 +187,8 @@ foreach ($list as $t) {
                 $katMasukList = [];
                 $katKeluarList = [];
                 foreach ($kategori_list as $kat) {
-                    if (($kat['tipe'] ?? '') === 'masuk') {
+                    $t = strtolower($kat['tipe'] ?? '');
+                    if ($t === 'pemasukan' || $t === 'masuk') {
                         $katMasukList[] = $kat;
                     } else {
                         $katKeluarList[] = $kat;

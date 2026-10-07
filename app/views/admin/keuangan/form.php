@@ -74,7 +74,8 @@ $nominalVal = !empty($t['nominal']) ? number_format((float)$t['nominal'], 0, '',
                 $katMasuk = [];
                 $katKeluar = [];
                 foreach ($kategori_list as $kat) {
-                    if (($kat['tipe'] ?? '') === 'masuk') {
+                    $t = strtolower($kat['tipe'] ?? '');
+                    if ($t === 'pemasukan' || $t === 'masuk') {
                         $katMasuk[] = $kat;
                     } else {
                         $katKeluar[] = $kat;
