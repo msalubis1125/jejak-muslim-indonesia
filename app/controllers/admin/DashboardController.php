@@ -23,7 +23,7 @@ class DashboardController extends Controller {
 
         if (Auth::isSuperAdmin()) {
             $data = [
-                'title' => 'Dashboard Super Administrator',
+                'title' => 'Pusat Kendali Ekosistem - Super Administrator',
                 'is_super_admin' => true,
                 'total_masjid' => $masjidModel->countAll(['is_deleted' => 0]),
                 'verified_masjid' => $masjidModel->count(['status' => 'verified', 'is_deleted' => 0]),
